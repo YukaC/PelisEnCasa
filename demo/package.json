@@ -1,0 +1,22 @@
+{
+  "name": "pelis-en-casa-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Demo estática de Pelis en Casa: catálogo y fichas con datos embebidos, sin backend.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test src/lib"
+  },
+  "dependencies": {
+    "motion": "^14.8.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.1.0"
+  }
+}

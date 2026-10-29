@@ -1,0 +1,239 @@
+{
+  "peliculas": [
+    {
+      "id": 1,
+      "nombre": "Jhon Wick 3 - Parabellum",
+      "year": "2019",
+      "duracion": "2h 11m",
+      "genero": 1,
+      "genero2": 2,
+      "director": 1,
+      "director2": null,
+      "score": "9.1",
+      "sinopsis": "John Wick regresa de nuevo pero con una recompensa sobre su cabeza que persigue unos mercenarios. Tras asesinar a uno de los miembros de su gremio, Wick es expulsado y se convierte en el foco de atencion de todos los sicarios de la organizacion."
+    },
+    {
+      "id": 2,
+      "nombre": "Spider-Man: Sin Camino a Casa",
+      "year": "2021",
+      "duracion": "2h 28m",
+      "genero": 1,
+      "genero2": 3,
+      "director": 2,
+      "director2": null,
+      "score": "9.7",
+      "sinopsis": "Tras descubrirse la identidad secreta de Peter Parker como Spider-Man, la vida del joven se vuelve una locura. Peter decide pedirle ayuda al Doctor Strange para recuperar su vida. Pero algo sale mal y provoca una fractura en el multiverso."
+    },
+    {
+      "id": 3,
+      "nombre": "Matrix Resurrecciones",
+      "year": "2021",
+      "duracion": "2h 28m",
+      "genero": 1,
+      "genero2": 4,
+      "director": 3,
+      "director2": null,
+      "score": "6.2",
+      "sinopsis": "Thomas Anderson lleva una vida comoda como una eminencia dentro del mundo de los videojuegos, pero tiene problemas para discernir entre lo que es realidad y lo que no lo es. Thomas debera decidir si sigue al conejo blanco una vez más."
+    },
+    {
+      "id": 4,
+      "nombre": "Eternals",
+      "year": "2021",
+      "duracion": "2h 37m",
+      "genero": 1,
+      "genero2": 7,
+      "director": 4,
+      "director2": null,
+      "score": "7.6",
+      "sinopsis": "Los Eternos son una raza de seres inmortales con poderes sobrehumanos que han vivido en secreto en la Tierra durante miles de años. Aunque nunca han intervenido en el destino de la poblacion, ahora una amenaza se cierne sobre la humanidad."
+    },
+    {
+      "id": 5,
+      "nombre": "Dune",
+      "year": "2021",
+      "duracion": "2h 35m",
+      "genero": 4,
+      "genero2": 3,
+      "director": 5,
+      "director2": null,
+      "score": "8.4",
+      "sinopsis": "Arrakis, también denominado Dune, se ha convertido en el planeta mas importante del universo. A su alrededor comienza una gigantesca lucha por el poder que culmina en una guerra interestelar."
+    },
+    {
+      "id": 6,
+      "nombre": "Encanto",
+      "year": "2021",
+      "duracion": "1h 49m",
+      "genero": 5,
+      "genero2": 6,
+      "director": 6,
+      "director2": 7,
+      "score": "8.9",
+      "sinopsis": "Una joven colombiana puede ser la ultima esperanza para su familia, cuando descubre que la magia que rodea a Encanto, un lugar encantado que bendice a los niños con dones únicos, se encuentra en serio peligro."
+    },
+    {
+      "id": 7,
+      "nombre": "Shang-Chi y la leyenda de los Diez Anillos",
+      "year": "2021",
+      "duracion": "2h 12m",
+      "genero": 1,
+      "genero2": 7,
+      "director": 8,
+      "director2": null,
+      "score": "9.1",
+      "sinopsis": "El maestro de artes marciales Shang-Chi se enfrenta al pasado que creia haber dejado atrás cuando se ve envuelto en la red de la misteriosa organizacion de los Diez Anillos."
+    },
+    {
+      "id": 8,
+      "nombre": "Uncharted: Fuera del mapa",
+      "year": "2022",
+      "duracion": "1h 56m",
+      "genero": 3,
+      "genero2": 1,
+      "director": 9,
+      "director2": null,
+      "score": "9.2",
+      "sinopsis": "El cazador de tesoros Victor Sullivan recluta a Nathan Drake para que lo ayude a recuperar una fortuna de 500 años. Lo que comienza como un atraco se convierte en una carrera de trotamundos para alcanzar el premio."
+    },
+    {
+      "id": 9,
+      "nombre": "Venom",
+      "year": "2018",
+      "duracion": "2h 20m",
+      "genero": 1,
+      "genero2": 4,
+      "director": 9,
+      "director2": null,
+      "score": "8.7",
+      "sinopsis": "El periodista Eddie Brock comienza a investigar la Fundacion Vida, dirigida por el cientifico Carlton Drake. Al descubrir que realizan experimentos con seres humanos y formas de vida alienigena, hará todo lo posible por sacar a la luz este tipo de excesos."
+    },
+    {
+      "id": 10,
+      "nombre": "Avengers: Endgame",
+      "year": "2019",
+      "duracion": "3h 2m",
+      "genero": 1,
+      "genero2": 4,
+      "director": 10,
+      "director2": 11,
+      "score": "9.7",
+      "sinopsis": "Despues de los eventos devastadores de Avengers: Infinity War, el universo esta en ruinas debido a las acciones de Thanos, el Titan Loco. Con la ayuda de los aliados que quedaron, los Vengadores deberan reunirse una vez más para intentar detenerlo y restaurar el orden en el universo de una vez por todas."
+    },
+    {
+      "id": 11,
+      "nombre": "The Batman",
+      "year": "2022",
+      "duracion": "2h 56m",
+      "genero": 1,
+      "genero2": 3,
+      "director": 12,
+      "director2": null,
+      "score": "9.1",
+      "sinopsis": "En su segundo año luchando contra el crimen, Batman explora la corrupcion existente en la ciudad de Gotham y el vinculo de esta con su propia familia. Ademas, entrara en conflicto con un asesino en serie conocido como el Acertijo."
+    }
+  ],
+  "directores": [
+    {
+      "id": 1,
+      "nombre": "Chad Stahelski"
+    },
+    {
+      "id": 2,
+      "nombre": "Jon Watts"
+    },
+    {
+      "id": 3,
+      "nombre": "Lana Wachowski"
+    },
+    {
+      "id": 4,
+      "nombre": "Chloe Zhao"
+    },
+    {
+      "id": 5,
+      "nombre": "Denis Villeneuve"
+    },
+    {
+      "id": 6,
+      "nombre": "Byron Howard"
+    },
+    {
+      "id": 7,
+      "nombre": "Jared Bush"
+    },
+    {
+      "id": 8,
+      "nombre": "Destin Daniel Cretton"
+    },
+    {
+      "id": 9,
+      "nombre": "Ruben Fleischer"
+    },
+    {
+      "id": 10,
+      "nombre": "Anthony Russo"
+    },
+    {
+      "id": 11,
+      "nombre": "Joe Russo"
+    },
+    {
+      "id": 12,
+      "nombre": "Matt Reeves"
+    }
+  ],
+  "generos": [
+    {
+      "id": 1,
+      "nombre": "Accion"
+    },
+    {
+      "id": 2,
+      "nombre": "Suspenso"
+    },
+    {
+      "id": 3,
+      "nombre": "Aventura"
+    },
+    {
+      "id": 4,
+      "nombre": "Ciencia Ficcion"
+    },
+    {
+      "id": 5,
+      "nombre": "Musical"
+    },
+    {
+      "id": 6,
+      "nombre": "Comedia"
+    },
+    {
+      "id": 7,
+      "nombre": "Fantasia"
+    }
+  ],
+  "comentarios": [
+    {
+      "id": 1,
+      "usuario": "Yuka",
+      "hora": "20/04/2022",
+      "texto": "Entretenida",
+      "pelicula": 2
+    },
+    {
+      "id": 2,
+      "usuario": "Clainux",
+      "hora": "14/03/2022",
+      "texto": "Me encanta",
+      "pelicula": 2
+    },
+    {
+      "id": 3,
+      "usuario": "Clainux",
+      "hora": "05/02/2022",
+      "texto": "Le gustó a mi hijo",
+      "pelicula": 5
+    }
+  ]
+}
