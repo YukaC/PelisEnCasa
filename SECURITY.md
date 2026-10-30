@@ -14,7 +14,7 @@ Please **do not** open a public GitHub issue for security problems.
 
 Report privately via:
 
-- [GitHub private security advisory](https://github.com/YukaC/TrabajoFinal_Ciucani_Grecco/security/advisories/new) for this repository, or
+- [GitHub private security advisory](https://github.com/YukaC/PelisEnCasa/security/advisories/new) for this repository, or
 - Email: **agusyuk25@gmail.com**
 
 Include steps to reproduce and impact if known. We aim to acknowledge reports within a few business days.
