@@ -2,3 +2,7 @@
 
 # CodeGraph index (local)
 .codegraph/
+
+# Python bytecode (flask/ legacy app)
+__pycache__/
+*.pyc
