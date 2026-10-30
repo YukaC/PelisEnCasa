@@ -55,10 +55,13 @@ export default function App() {
       </main>
 
       <footer className="footer">
-        <p>
-          Pelis en Casa · demo estática de un TP de 2022, reescrita con React y Vite. Sin backend, sin
-          login, sin base de datos.
-        </p>
+        <div className="footer__inner">
+          <img className="footer__logo" src="/logo.png" alt="" width="100" height="100" />
+          <p>
+            Pelis en Casa · demo estática de un TP de 2022, reescrita con React y Vite. Sin backend, sin
+            login, sin base de datos.
+          </p>
+        </div>
       </footer>
     </div>
   )

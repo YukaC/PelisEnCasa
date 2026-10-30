@@ -20,8 +20,8 @@ export default function SiteHeader() {
       <motion.span className="marquee__lift" style={{ opacity: lift }} aria-hidden="true" />
 
       <div className="marquee__inner">
-        <a className="brand" href="#/">
-          <span className="brand__name">Pelis en Casa</span>
+        <a className="brand" href="#/" aria-label="Pelis en Casa, ir a la cartelera">
+          <img className="brand__logo" src="/logo.png" alt="" width="100" height="100" />
           <span className="brand__tag">Cartelera de barrio</span>
         </a>
 

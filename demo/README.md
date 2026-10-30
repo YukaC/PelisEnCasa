@@ -85,12 +85,24 @@ demo/
     │   ├── comments.js     # validación y persistencia en localStorage (puro + storage)
     │   ├── motion.js       # presets de spring, variants y helpers de movimiento (puro)
     │   └── format.js       # score y fecha legible en es-AR
-    └── styles/demo.css     # tokens en :root, mobile-first, un solo acento
+    └── styles/demo.css     # tokens en :root, mobile-first, un solo acento rojo
 ```
+
+## Marca
+
+La paleta y el logo son los del sitio original del TP, no una reinterpretación: negro puro
+(`#000`), acento rojo (`#ff2d2d`, el `hsla(0, 100%, 50%, .8)` original solidificado para que
+las etiquetas en mayúscula sigan pasando AA), tipografía en `hsl(0, 0%, 88%)` y grises neutros.
+El cintillo rojo del logo vive en `public/logo.png` (cabecera y pie) y `public/logo2.png`
+(favicon); como el logo ya dice "Pelis en Casa", la cabecera lo usa como marca y sólo le suma
+el bajada "Cartelera de barrio".
+
+La tipografía sí es del rediseño: el serif de sistema en los títulos se queda, porque lo que
+se restauró fue el color y la marca, no la fuente.
 
 ## Accesibilidad
 
-Mobile-first, contraste AA sobre fondo casi negro, foco visible por teclado, skip link, `alt` real en
+Mobile-first, contraste AA sobre negro, foco visible por teclado, skip link, `alt` real en
 posters, `aria-live` en el conteo/estado vacío del catálogo y en el alta de comentarios, y errores de
 formulario asociados con `aria-describedby`.
 

@@ -1,23 +1,27 @@
 /* ==========================================================================
    Pelis en Casa — cartelera de cine de barrio, marquesina nocturna
-   Un solo acento (ámbar), serif de sistema para títulos, sans para UI.
+   Paleta del sitio original del TP: negro, rojo y grises neutros, con el logo
+   del cintillo rojo. Un solo acento (rojo), serif de sistema para títulos,
+   sans para UI.
    ========================================================================== */
 
 :root {
   color-scheme: dark;
 
   /* color */
-  --ink-950: #0b0908;
-  --ink-900: #12100d;
-  --ink-800: #1b1713;
-  --line: #2b241e;
-  --line-strong: #42382e;
-  --paper: #f5efe4;
-  --paper-dim: #cbbdab;
-  --paper-mute: #a89c8c;
-  --amber: #e8a13c;
-  --amber-deep: #c07f24;
-  --danger: #ff9a85;
+  --ink-950: #000;
+  --ink-900: #0a0a0a;
+  --ink-800: #141414;
+  --line: #242424;
+  --line-strong: #3a3a3a;
+  --paper: #e0e0e0;
+  --paper-dim: #b4b4b4;
+  --paper-mute: #a1a1a1;
+  /* The TP's accent was hsla(0, 100%, 50%, 0.8); kept as a solid red so the
+     small uppercase labels that use it as text still clear 4.5:1 on black. */
+  --accent: #ff2d2d;
+  --accent-deep: #832525;
+  --danger: #ffb4a8;
 
   /* tipografía */
   --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
@@ -44,7 +48,7 @@
   --radius: 6px;
   --radius-lg: 12px;
   --measure: 64ch;
-  --focus-ring: 0 0 0 2px var(--ink-950), 0 0 0 4px var(--amber);
+  --focus-ring: 0 0 0 2px var(--ink-950), 0 0 0 4px var(--accent);
   --shadow-poster: 0 22px 36px -26px #000;
 }
 
@@ -64,7 +68,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--ink-950);
-  background-image: radial-gradient(90rem 40rem at 50% -12rem, #191410 0%, transparent 70%);
+  background-image: radial-gradient(90rem 40rem at 50% -12rem, #151515 0%, transparent 70%);
   color: var(--paper);
   font-family: var(--font-ui);
   font-size: var(--step-0);
@@ -113,13 +117,13 @@ textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--amber);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--amber);
-  color: var(--ink-950);
+  background: var(--accent);
+  color: #fff;
 }
 
 .sr-only {
@@ -142,8 +146,8 @@ textarea {
   z-index: 40;
   transform: translateY(-200%);
   padding: var(--space-2) var(--space-4);
-  background: var(--amber);
-  color: var(--ink-950);
+  background: var(--accent);
+  color: #fff;
   font-weight: 600;
   text-decoration: none;
   border-radius: var(--radius);
@@ -159,7 +163,7 @@ textarea {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .app {
@@ -215,7 +219,7 @@ textarea {
   left: 0;
   right: 0;
   height: 0.625rem;
-  background-image: radial-gradient(circle, var(--amber) 0 1.6px, transparent 2.2px);
+  background-image: radial-gradient(circle, var(--accent) 0 1.6px, transparent 2.2px);
   background-size: 1.375rem 0.625rem;
   background-position: center;
   opacity: 0.45;
@@ -253,17 +257,16 @@ textarea {
 
 .brand {
   display: inline-flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  align-items: center;
+  gap: var(--space-3);
   text-decoration: none;
 }
 
-.brand__name {
-  font-family: var(--font-display);
-  font-size: var(--step-2);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1;
+/* El cintillo rojo del TP original: es el logo, así que no lo repite el texto. */
+.brand__logo {
+  flex: none;
+  width: 4rem;
+  height: auto;
 }
 
 .brand__tag {
@@ -288,7 +291,7 @@ textarea {
 }
 
 .marquee__nav a:hover {
-  border-bottom-color: var(--amber);
+  border-bottom-color: var(--accent);
 }
 
 .marquee__badge {
@@ -366,22 +369,22 @@ textarea::placeholder {
 input:hover,
 select:hover,
 textarea:hover {
-  border-color: #5a4c3d;
+  border-color: #5c5c5c;
 }
 
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   outline: none;
-  border-color: var(--amber);
+  border-color: var(--accent);
   box-shadow: var(--focus-ring);
 }
 
 select {
   appearance: none;
   padding-right: 2rem;
-  background-image: linear-gradient(45deg, transparent 50%, var(--amber) 50%),
-    linear-gradient(135deg, var(--amber) 50%, transparent 50%);
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
   background-position: calc(100% - 1.05rem) 1.05rem, calc(100% - 0.7rem) 1.05rem;
   background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
   background-repeat: no-repeat;
@@ -439,7 +442,7 @@ textarea {
   inset: 8% 5% -4%;
   border-radius: var(--radius-lg);
   background: transparent;
-  box-shadow: 0 26px 44px -22px #000, 0 0 0 1px rgb(232 161 60 / 0.14);
+  box-shadow: 0 26px 44px -22px #000, 0 0 0 1px rgb(255 45 45 / 0.18);
   opacity: 0;
   pointer-events: none;
 }
@@ -469,9 +472,9 @@ textarea {
   top: var(--space-2);
   right: var(--space-2);
   padding: 0.1rem 0.4rem;
-  background: rgb(11 9 8 / 0.86);
+  background: rgb(0 0 0 / 0.86);
   border-radius: var(--radius);
-  color: var(--amber);
+  color: var(--accent);
   font-size: var(--step--1);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -491,7 +494,7 @@ textarea {
 .film-card:hover .film-card__title,
 .film-card:focus-visible .film-card__title {
   text-decoration: underline;
-  text-decoration-color: var(--amber);
+  text-decoration-color: var(--accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
@@ -538,10 +541,10 @@ textarea {
   justify-content: center;
   gap: var(--space-2);
   padding: 0.6rem 1.1rem;
-  background: var(--amber);
-  border: 1px solid var(--amber);
+  background: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: var(--radius);
-  color: var(--ink-950);
+  color: #fff;
   font-weight: 600;
   font-size: var(--step-0);
   text-decoration: none;
@@ -551,8 +554,8 @@ textarea {
 }
 
 .button:hover {
-  background: var(--amber-deep);
-  border-color: var(--amber-deep);
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
 }
 
 .button--ghost {
@@ -563,7 +566,7 @@ textarea {
 
 .button--ghost:hover {
   background: var(--ink-800);
-  border-color: var(--amber);
+  border-color: var(--accent);
 }
 
 /* ----------------------------------------------------------------- ficha --- */
@@ -579,7 +582,7 @@ textarea {
 }
 
 .backlink:hover {
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .film__banner {
@@ -600,7 +603,7 @@ textarea {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, var(--ink-950) 0%, rgb(11 9 8 / 0.25) 55%, transparent 100%);
+  background: linear-gradient(to top, var(--ink-950) 0%, rgb(0 0 0 / 0.25) 55%, transparent 100%);
 }
 
 .film__head {
@@ -683,7 +686,7 @@ textarea {
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(to right, var(--amber-deep), var(--amber));
+  background: linear-gradient(to right, var(--accent-deep), var(--accent));
   transform-origin: left center;
 }
 
@@ -754,7 +757,7 @@ textarea {
 
 .form__status {
   min-height: 1.5em;
-  color: var(--amber);
+  color: var(--accent);
   font-size: var(--step--1);
   font-weight: 600;
 }
@@ -799,7 +802,7 @@ textarea {
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .comment__text {
@@ -839,10 +842,23 @@ textarea {
   background: var(--ink-900);
 }
 
-.footer p {
+.footer__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   max-width: 72rem;
   margin-inline: auto;
   padding: var(--space-5) var(--space-4);
+}
+
+.footer__logo {
+  flex: none;
+  width: 2.25rem;
+  height: auto;
+  opacity: 0.75;
+}
+
+.footer p {
   font-size: var(--step--1);
   color: var(--paper-mute);
 }
