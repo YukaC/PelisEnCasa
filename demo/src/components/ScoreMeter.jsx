@@ -21,8 +21,14 @@ export default function ScoreMeter({ score, max = 10 }) {
   }, [progress, reduced, target])
 
   return (
-    <span className="score-meter" aria-hidden="true">
-      <motion.span className="score-meter__fill" style={{ scaleX: progress }} />
+    <span
+      className="mt-2 block h-[0.3rem] w-full max-w-40 overflow-hidden rounded-full bg-line"
+      aria-hidden="true"
+    >
+      <motion.span
+        className="block size-full origin-left rounded-[inherit] bg-linear-to-r/srgb from-accent-deep to-accent"
+        style={{ scaleX: progress }}
+      />
     </span>
   )
 }

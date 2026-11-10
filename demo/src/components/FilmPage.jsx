@@ -50,18 +50,27 @@ function FilmDetail({ film }) {
   }
 
   return (
-    <article className="film">
-      <a className="backlink" href="#/">
+    <article>
+      <a
+        className="mb-4 inline-block text-step-n1 font-semibold tracking-[0.04em] text-fg-dim no-underline hover:text-accent-text"
+        href="#/"
+      >
         <span aria-hidden="true">← </span>Volver a la cartelera
       </a>
 
-      <div className="film__banner">
-        <SafeImage src={imageUrl(film, 'banner')} alt="" aria-hidden="true" />
+      <div className="banner-veil relative h-[clamp(9rem,28vw,18rem)] overflow-hidden rounded-xl bg-raised wide:h-[clamp(14rem,26vw,20rem)]">
+        <SafeImage
+          className="size-full object-cover"
+          src={imageUrl(film, 'banner')}
+          alt=""
+          aria-hidden="true"
+        />
       </div>
 
-      <header className="film__head">
-        <div className="film__poster">
+      <header className="-mt-8 grid grid-cols-1 gap-6 wide:-mt-12 wide:grid-cols-[12.5rem_minmax(0,1fr)] wide:gap-8">
+        <div className="relative z-1 aspect-2/3 w-[min(11rem,45vw)] overflow-hidden rounded-md bg-raised shadow-poster wide:w-full">
           <SafeImage
+            className="size-full object-cover"
             src={imageUrl(film, 'poster')}
             alt={`Poster de ${film.name}`}
             width="300"
@@ -69,23 +78,23 @@ function FilmDetail({ film }) {
           />
         </div>
 
-        <div className="film__info">
+        <div className="flex flex-col gap-4">
           <p className="kicker">{film.genres.join(' · ')}</p>
-          <h1 className="film__title">{film.name}</h1>
+          <h1 className="text-step-4">{film.name}</h1>
 
-          <dl className="film__facts">
+          <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] gap-x-6 gap-y-3 border-y border-line py-4">
             <div>
-              <dt>Año</dt>
-              <dd>{film.year}</dd>
+              <dt className="field-label">Año</dt>
+              <dd className="m-0 text-step-0 text-fg">{film.year}</dd>
             </div>
             <div>
-              <dt>Duración</dt>
-              <dd>{film.duration}</dd>
+              <dt className="field-label">Duración</dt>
+              <dd className="m-0 text-step-0 text-fg">{film.duration}</dd>
             </div>
             <div>
-              <dt>Score</dt>
-              <dd>
-                <span className="film__score">
+              <dt className="field-label">Score</dt>
+              <dd className="m-0 text-step-0 text-fg">
+                <span className="inline-block tabular-nums">
                   <span aria-hidden="true">★ </span>
                   {formatScore(film.score)}
                   <span className="sr-only"> de 10</span>
@@ -94,19 +103,19 @@ function FilmDetail({ film }) {
               </dd>
             </div>
             <div>
-              <dt>Dirección</dt>
-              <dd>{film.directors.join(', ')}</dd>
+              <dt className="field-label">Dirección</dt>
+              <dd className="m-0 text-step-0 text-fg">{film.directors.join(', ')}</dd>
             </div>
             <div>
-              <dt>Géneros</dt>
-              <dd>{film.genres.join(', ')}</dd>
+              <dt className="field-label">Géneros</dt>
+              <dd className="m-0 text-step-0 text-fg">{film.genres.join(', ')}</dd>
             </div>
           </dl>
 
-          <p className="film__synopsis">{film.synopsis}</p>
+          <p className="max-w-measure text-step-1 leading-[1.7] text-fg-dim">{film.synopsis}</p>
 
           {session && (
-            <div className="film__actions">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <a className="btn-ghost" href={`#/film/${film.id}/editar`}>
                 Editar película
               </a>
@@ -119,7 +128,7 @@ function FilmDetail({ film }) {
               >
                 {confirmingDelete ? 'Confirmar: borrar película' : 'Borrar película'}
               </motion.button>
-              <p className="film__actions-status" role="alert">
+              <p className="min-h-[1.5em] basis-full text-step-n1 font-semibold text-danger" role="alert">
                 {deleteError}
               </p>
             </div>
@@ -127,10 +136,12 @@ function FilmDetail({ film }) {
         </div>
       </header>
 
-      <section className="comments" aria-labelledby="comments-title">
-        <div className="comments__head">
-          <h2 id="comments-title">Comentarios</h2>
-          <p className="comments__count">
+      <section className="mt-12 border-t border-line pt-6" aria-labelledby="comments-title">
+        <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+          <h2 id="comments-title" className="text-step-3">
+            Comentarios
+          </h2>
+          <p className="text-step-n1 tracking-[0.08em] text-fg-mute uppercase">
             {comments.length === 1 ? '1 comentario' : `${comments.length} comentarios`}
           </p>
         </div>
@@ -138,7 +149,7 @@ function FilmDetail({ film }) {
         {session ? (
           <CommentForm filmId={film.id} author={session.user} onSaved={setStore} />
         ) : (
-          <div className="login-prompt">
+          <div className="mb-8 flex flex-wrap items-center gap-4 text-fg-dim">
             <p>Sólo quien inició sesión puede dejar una reseña.</p>
             <a className="btn" href={`#/login?next=/film/${film.id}`}>
               Iniciar sesión para comentar
@@ -147,30 +158,32 @@ function FilmDetail({ film }) {
         )}
 
         {comments.length === 0 && (
-          <p className="comments__empty">Todavía no hay comentarios.</p>
+          <p className="border-t border-line pt-4 text-fg-mute">Todavía no hay comentarios.</p>
         )}
 
         {/* La lista queda montada desde el arranque: así el primer comentario
             también entra con spring en vez de aparecer sin animación. */}
-        <ol className="comments__list">
+        <ol className="flex flex-col">
           <AnimatePresence initial={false}>
             {comments.map((comment) => (
               <motion.li
-                className="comment"
+                className="border-t border-line py-4"
                 key={comment.id}
                 layout="position"
                 {...commentItemMotion(reduced)}
               >
-                <div className="comment__meta">
-                  <span className="comment__author">{comment.author}</span>
-                  <time className="comment__date" dateTime={comment.date}>
+                <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-2">
+                  <span className="font-semibold">{comment.author}</span>
+                  <time className="text-step-n1 text-fg-mute tabular-nums" dateTime={comment.date}>
                     {formatDate(comment.date)}
                   </time>
                   {comment.id.startsWith('local-') && (
-                    <span className="comment__tag">guardado acá</span>
+                    <span className="rounded-full border border-line-strong px-[0.4rem] py-[0.05rem] text-label tracking-[0.08em] text-accent-text uppercase">
+                      guardado acá
+                    </span>
                   )}
                 </div>
-                <p className="comment__text">{comment.text}</p>
+                <p className="max-w-measure text-fg-dim">{comment.text}</p>
               </motion.li>
             ))}
           </AnimatePresence>

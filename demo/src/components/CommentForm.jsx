@@ -53,14 +53,19 @@ export default function CommentForm({ filmId, author, onSaved }) {
   }
 
   return (
-    <motion.form className="form" onSubmit={handleSubmit} noValidate ref={scope}>
-      <h3 className="form__title">Dejá tu comentario</h3>
-      <p className="form__hint">
-        Comentás como <strong>{author}</strong>. Se guarda en este navegador, no se envía a ningún
-        servidor.
+    <motion.form
+      className="mb-8 flex max-w-[34rem] flex-col gap-3"
+      onSubmit={handleSubmit}
+      noValidate
+      ref={scope}
+    >
+      <h3 className="text-step-2">Dejá tu comentario</h3>
+      <p className="-mt-2 text-step-n1 text-fg-mute">
+        Comentás como <strong className="text-fg">{author}</strong>. Se guarda en este navegador, no
+        se envía a ningún servidor.
       </p>
 
-      <div className="form__row">
+      <div className="flex min-w-0 flex-col gap-2">
         <label className="field-label" htmlFor={textId}>
           Comentario
         </label>
@@ -78,18 +83,26 @@ export default function CommentForm({ filmId, author, onSaved }) {
         />
         <AnimatePresence initial={false}>
           {errors.text && (
-            <motion.p className="form__error" id={textErrorId} {...errorMotion}>
+            <motion.p
+              className="text-step-n1 font-semibold text-danger"
+              id={textErrorId}
+              {...errorMotion}
+            >
               {errors.text}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
 
-      <motion.button className="btn" type="submit" {...pressMotion(reduced)}>
+      <motion.button className="btn self-start mt-1" type="submit" {...pressMotion(reduced)}>
         Publicar comentario
       </motion.button>
 
-      <div className="form__status" role="status" aria-live="polite">
+      <div
+        className="min-h-[1.5em] text-step-n1 font-semibold text-accent-text"
+        role="status"
+        aria-live="polite"
+      >
         <AnimatePresence initial={false} mode="wait">
           {status && (
             <motion.span key={status} {...statusMotion(reduced)}>
