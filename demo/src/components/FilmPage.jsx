@@ -17,7 +17,7 @@ import { useSession } from '../lib/useSession.js'
 export default function FilmPage({ filmId }) {
   const { getFilm } = useCatalog()
   const film = getFilm(filmId)
-  if (!film) return <NotFoundPage message="No hay ninguna película con ese id en la cartelera." />
+  if (!film) return <NotFoundPage message="No hay ninguna película con ese id en el sitio." />
   return <FilmDetail film={film} />
 }
 
@@ -55,7 +55,7 @@ function FilmDetail({ film }) {
         className="mb-4 inline-block text-step-n1 font-semibold tracking-[0.04em] text-fg-dim no-underline hover:text-accent-text"
         href="#/"
       >
-        <span aria-hidden="true">← </span>Volver a la cartelera
+        <span aria-hidden="true">← </span>Volver a las películas
       </a>
 
       <div className="banner-veil relative h-[clamp(9rem,28vw,18rem)] overflow-hidden rounded-xl bg-raised wide:h-[clamp(14rem,26vw,20rem)]">
@@ -93,7 +93,7 @@ function FilmDetail({ film }) {
               <dd className="m-0 text-step-0 text-fg">{film.duration}</dd>
             </div>
             <div>
-              <dt className="field-label">Score</dt>
+              <dt className="field-label">Puntaje</dt>
               <dd className="m-0 text-step-0 text-fg">
                 <span className="inline-block tabular-nums">
                   <span aria-hidden="true">★ </span>
@@ -140,10 +140,10 @@ function FilmDetail({ film }) {
       <section className="mt-12 border-t border-line pt-6" aria-labelledby="comments-title">
         <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
           <h2 id="comments-title" className="text-step-3">
-            Comentarios
+            Reseñas
           </h2>
           <p className="text-step-n1 tracking-[0.08em] text-fg-mute uppercase">
-            {comments.length === 1 ? '1 comentario' : `${comments.length} comentarios`}
+            {comments.length === 1 ? '1 reseña' : `${comments.length} reseñas`}
           </p>
         </div>
 
@@ -151,15 +151,15 @@ function FilmDetail({ film }) {
           <CommentForm filmId={film.id} author={session.user} onSaved={setStore} />
         ) : (
           <div className="mb-8 flex flex-wrap items-center gap-4 text-fg-dim">
-            <p>Sólo quien inició sesión puede dejar una reseña.</p>
+            <p>Sólo quien inició sesión puede dejar su reseña.</p>
             <a className="btn" href={`#/login?next=/film/${film.id}`}>
-              Iniciar sesión para comentar
+              Iniciar sesión para reseñar
             </a>
           </div>
         )}
 
         {comments.length === 0 && (
-          <p className="border-t border-line pt-4 text-fg-mute">Todavía no hay comentarios.</p>
+          <p className="border-t border-line pt-4 text-fg-mute">Todavía no hay reseñas de esta película. Si la viste, escribí la primera.</p>
         )}
 
         {/* La lista queda montada desde el arranque: así el primer comentario

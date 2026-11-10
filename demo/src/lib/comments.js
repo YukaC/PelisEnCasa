@@ -25,7 +25,7 @@ export function validateComment(input) {
   /** @type {{ name?: string, text?: string }} */
   const errors = {}
   if (!String(input?.name ?? '').trim()) errors.name = 'Poné tu nombre.'
-  if (!String(input?.text ?? '').trim()) errors.text = 'Escribí un comentario.'
+  if (!String(input?.text ?? '').trim()) errors.text = 'Escribí tu reseña.'
   return errors
 }
 

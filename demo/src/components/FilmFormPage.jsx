@@ -26,7 +26,7 @@ const EMPTY = {
 
 const IMAGE_FIELDS = [
   { kind: 'poster', label: 'Póster (opcional)' },
-  { kind: 'banner', label: 'Banner de la ficha (opcional)' },
+  { kind: 'banner', label: 'Banner de la película (opcional)' },
 ]
 
 /** Proporción de cada vista previa: el póster es 2:3 y el banner 16:9. */
@@ -152,7 +152,7 @@ export default function FilmFormPage({ filmId }) {
     )
   }
   if (isEdit && !film) {
-    return <NotFoundPage message="No hay ninguna película con ese id en la cartelera." />
+    return <NotFoundPage message="No hay ninguna película con ese id en el sitio." />
   }
 
   return <FilmForm key={filmId ?? 'new'} film={film} rawFilms={rawFilms} session={session} />
@@ -224,7 +224,7 @@ function FilmForm({ film, rawFilms, session }) {
         href={backHref}
       >
         <span aria-hidden="true">← </span>
-        {film ? 'Volver a la ficha' : 'Volver a la cartelera'}
+        {film ? 'Volver a la película' : 'Volver a las películas'}
       </a>
 
       <h1 id="editor-title" className="mb-4 text-step-3">

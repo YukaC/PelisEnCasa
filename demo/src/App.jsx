@@ -60,7 +60,7 @@ export default function App() {
             {route.name === 'film-new' && <FilmFormPage />}
             {route.name === 'film-edit' && <FilmFormPage filmId={route.filmId} />}
             {route.name === 'not-found' && (
-              <NotFoundPage message="Esa dirección no existe en la cartelera." />
+              <NotFoundPage message="Esa dirección no existe en el sitio." />
             )}
           </RouteFrame>
         </AnimatePresence>
@@ -70,15 +70,15 @@ export default function App() {
         <div className="mx-auto flex max-w-page items-center gap-3 px-4 py-6">
           <img className="h-auto w-9 flex-none opacity-75" src="/logo.png" alt="" width="100" height="100" />
           <p className="text-step-n1 text-fg-mute sm:px-8">
-            Pelis en Casa · demo estática del TP de 2022, que era Flask con un JSON. Reescrita con React y
-            Vite, sin backend ni base de datos: el login es simulado.
+            Pelis en Casa · reseñas de cine. Demo estática del TP de 2022 (Flask con un JSON),
+            reescrita con React y Vite: sin backend ni base de datos, con login simulado.
           </p>
           <nav className="ml-auto flex flex-wrap items-center gap-4 text-step-n1" aria-label="Enlaces del pie">
             <a
               className="border-b border-line-strong text-fg-dim no-underline hover:border-accent hover:text-fg"
               href="#/"
             >
-              Cartelera
+              Películas
             </a>
             <a
               className="border-b border-line-strong text-fg-dim no-underline hover:border-accent hover:text-fg"

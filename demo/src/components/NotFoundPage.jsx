@@ -10,7 +10,7 @@ export default function NotFoundPage({ message }) {
       </h1>
       <p className="text-fg-dim">{message}</p>
       <a className="btn" href="#/">
-        Ir a la cartelera
+        Ir a las películas
       </a>
     </section>
   )

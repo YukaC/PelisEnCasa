@@ -21,14 +21,14 @@ export default function LoginPage({ next = '/', notice, stay = false }) {
             Ya iniciaste sesión como <strong>{session.user}</strong>.
           </p>
           <a className="btn" href="#/">
-            Ir a la cartelera
+            Ir a las películas
           </a>
         </>
       ) : (
         <>
           <p className="mb-4 text-fg-dim">
             {notice ??
-              'Con sesión iniciada podés ver el catálogo completo, comentar, y subir, editar o borrar películas.'}
+              'Con sesión iniciada ves el catálogo completo, escribís reseñas y sumás, editás o borrás películas.'}
           </p>
           <LoginForm onSuccess={() => !stay && navigate(next)} />
         </>

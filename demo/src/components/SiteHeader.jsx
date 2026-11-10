@@ -39,7 +39,7 @@ export default function SiteHeader({ loginHref = '#/login' }) {
         <a
           className="inline-flex items-center gap-3 no-underline"
           href="#/"
-          aria-label="Pelis en Casa, ir a la cartelera"
+          aria-label="Pelis en Casa, ir a las películas"
         >
           {/* El cintillo rojo del TP original: es el logo, así que no lo repite el texto. */}
           <img className="h-auto w-16 flex-none" src="/logo.png" alt="" width="100" height="100" />
@@ -48,7 +48,7 @@ export default function SiteHeader({ loginHref = '#/login' }) {
 
         <nav className="flex flex-wrap items-center gap-3 text-step-n1" aria-label="Navegación principal">
           <a className={NAV_LINK} href="#/">
-            Cartelera
+            Películas
           </a>
           <span className="rounded-full border border-line-strong px-2 py-[0.15rem] text-label tracking-[0.12em] text-fg-mute uppercase">
             demo

@@ -31,11 +31,11 @@ test('validateComment rechaza nombre y texto vacíos o en blanco', () => {
     name: 'Poné tu nombre.',
   })
   assert.deepEqual(validateComment({ name: 'Ana', text: '  \n ' }), {
-    text: 'Escribí un comentario.',
+    text: 'Escribí tu reseña.',
   })
   assert.deepEqual(validateComment({ name: '', text: '' }), {
     name: 'Poné tu nombre.',
-    text: 'Escribí un comentario.',
+    text: 'Escribí tu reseña.',
   })
   assert.deepEqual(validateComment({ name: 'Ana', text: 'Me gustó' }), {})
 })
@@ -47,7 +47,7 @@ test('addCommentToStore no guarda un comentario inválido', () => {
   assert.equal(result.ok, false)
   assert.deepEqual(result.errors, {
     name: 'Poné tu nombre.',
-    text: 'Escribí un comentario.',
+    text: 'Escribí tu reseña.',
   })
   assert.deepEqual(storage.dump(), {})
 })

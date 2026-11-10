@@ -2,9 +2,10 @@
 
 **Demo en vivo: <https://peliscasa.vercel.app>**
 
-Catálogo y fichas de un sitio de reseñas de películas, rehecho como demo para mostrar en una
-entrevista. Es la versión estática del TP 2022 (páginas HTML + jQuery contra una API Flask): acá no
-hay backend ni base de datos, y el login es simulado.
+Reseñas de cine: puntaje, sinopsis y lo que escribieron quienes vieron cada película. El sitio se usa
+para leer y discutir, no para reproducir nada. Rehecho como demo para mostrar en una entrevista: es
+la versión estática del TP 2022 (páginas HTML + jQuery contra una API Flask), sin backend ni base de
+datos, con el login simulado.
 
 - **React 19 + Vite 7**, JavaScript plano (`.jsx`). Sin TypeScript, sin router.
 - **Tailwind CSS v4** (`@tailwindcss/vite`): los estilos son utilidades en el JSX. Los tokens (color,
@@ -66,9 +67,9 @@ npm test
 
 ## Rutas
 
-- `#/` — catálogo: grilla, buscador (nombre/director/sinopsis), filtros de género y director, orden
-  por score / año / A–Z.
-- `#/film/:id` — ficha: banner, poster, sinopsis, datos, comentarios semilla y formulario.
+- `#/` — películas: grilla, buscador (nombre/director/sinopsis), filtros de género y director, orden
+  por score / año / A–Z, y la reseña destacada que rota entre todas las películas.
+- `#/film/:id` — reseña de la película: banner, poster, sinopsis, datos, comentarios semilla y formulario.
 
 El ruteo por hash vive en un solo módulo (`src/lib/route.js`) y se resuelve con `hashchange`.
 

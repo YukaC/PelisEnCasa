@@ -116,8 +116,8 @@ export default function CatalogPage() {
   const total = films.length
   const countLabel =
     visibleFilms.length === total
-      ? `${total} películas en cartelera`
-      : `${visibleFilms.length} de ${total} películas`
+      ? `${total} películas`
+      : `${visibleFilms.length} de ${total}`
 
   // Al cambiar género o director, las tarjetas vuelven a entrar escalonadas.
   // El orden (y la búsqueda) no re-montan: ahí manda `layout`, que reacomoda.
@@ -140,10 +140,11 @@ export default function CatalogPage() {
   return (
     <section aria-labelledby="catalog-title">
       <header className="flex max-w-2xl flex-col gap-3 pb-8">
+        <p className="kicker">Reseñas de cine</p>
         <h1 id="catalog-title" className="text-step-4">Pelis en Casa</h1>
         <p className="max-w-measure text-fg-dim">
-          Películas para elegir esta noche. Buscá por nombre, director o sinopsis, y entrá a la
-          ficha para leer los comentarios.
+          El archivo de reseñas de la casa: puntaje, sinopsis y la palabra de quienes vieron cada
+          película. Leé antes de elegir y dejá la tuya cuando la veas.
         </p>
       </header>
 
@@ -193,7 +194,7 @@ export default function CatalogPage() {
             )}
           </div>
           <div className="flex flex-col gap-2 p-6">
-            <p className="kicker">Destacada de la noche</p>
+            <p className="kicker">Reseña destacada</p>
             <h2 className="line-clamp-2 text-step-3 leading-[1.1]">{featured.name}</h2>
             <p className="text-step-n1 font-semibold tracking-[0.08em] text-fg-dim uppercase">
               {featured.year} · {featured.duration}
@@ -205,7 +206,7 @@ export default function CatalogPage() {
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <a className="btn" href={`#/film/${featured.id}`}>
-                Ver la ficha
+                Leer la reseña
               </a>
               {rotates && !reduced && (
                 <motion.button
@@ -316,7 +317,8 @@ export default function CatalogPage() {
           >
             <p className="font-display text-step-2">Sin resultados</p>
             <p className="max-w-[46ch] text-fg-dim">
-              No hay películas con esos filtros. Probá con otra búsqueda o limpiá todo.
+              Ninguna película coincide con esos filtros. Probá con otro título, otro género, o
+              limpiá la búsqueda.
             </p>
             {hasFilters && (
               <motion.button
@@ -346,7 +348,7 @@ export default function CatalogPage() {
       </AnimatePresence>
 
       {pageCount > 1 && (
-        <nav className="mt-8 flex flex-wrap items-center justify-center gap-4" aria-label="Paginación de la cartelera">
+        <nav className="mt-8 flex flex-wrap items-center justify-center gap-4" aria-label="Paginación de las reseñas">
           <motion.button
             className="btn-ghost"
             type="button"

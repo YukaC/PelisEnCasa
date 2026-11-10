@@ -48,7 +48,7 @@ export default function CommentForm({ filmId, author, onSaved }) {
 
     setErrors({})
     setText('')
-    setStatus('Comentario publicado. Ya aparece en la lista.')
+    setStatus('Reseña publicada. Ya aparece en la lista.')
     onSaved(result.store)
   }
 
@@ -59,15 +59,15 @@ export default function CommentForm({ filmId, author, onSaved }) {
       noValidate
       ref={scope}
     >
-      <h3 className="text-step-2">Dejá tu comentario</h3>
+      <h3 className="text-step-2">Dejá tu reseña</h3>
       <p className="-mt-2 text-step-n1 text-fg-mute">
-        Comentás como <strong className="text-fg">{author}</strong>. Se guarda en este navegador, no
-        se envía a ningún servidor.
+        Reseñás como <strong className="text-fg">{author}</strong>. La demo guarda tu reseña en
+        este navegador, no en un servidor.
       </p>
 
       <div className="flex min-w-0 flex-col gap-2">
         <label className="field-label" htmlFor={textId}>
-          Comentario
+          Tu reseña
         </label>
         <textarea
           id={textId}
@@ -95,7 +95,7 @@ export default function CommentForm({ filmId, author, onSaved }) {
       </div>
 
       <motion.button className="btn self-start mt-1" type="submit" {...pressMotion(reduced)}>
-        Publicar comentario
+        Publicar reseña
       </motion.button>
 
       <div
