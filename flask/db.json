@@ -219,12 +219,12 @@
     "usuarios" : [
         {
             "id": 1,
-            "nombre" : "Yuka",
+            "nombre" : "Ana",
             "passw" : "123"
         },
         {
             "id": 2,
-            "nombre" : "Clainux",
+            "nombre" : "Bruno",
             "passw" : "456"
         }
     ],
@@ -232,21 +232,21 @@
     "comentarios" : [
         {
             "id": 1,
-            "usuario" : "Yuka",
+            "usuario" : "Ana",
             "hora" : "20/04/2022",
             "texto": "Entretenida",
             "pelicula" : 2
         },
         {
             "id": 2,
-            "usuario" : "Clainux",
+            "usuario" : "Bruno",
             "hora" : "14/03/2022",
             "texto" : "Me encanta",
             "pelicula" : 2
         },
         {
             "id": 3,
-            "usuario" : "Clainux",
+            "usuario" : "Bruno",
             "hora" : "05/02/2022",
             "texto" : "Le gustó a mi hijo",
             "pelicula" : 5

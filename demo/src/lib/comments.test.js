@@ -106,8 +106,8 @@ test('parseSeedDate convierte dd/mm/yyyy en fecha ISO', () => {
 
 test('commentsForFilm mezcla semilla y guardados, del más nuevo al más viejo', () => {
   const seed = [
-    { id: 'seed-1', author: 'Yuka', text: 'Entretenida', date: '2022-04-20' },
-    { id: 'seed-3', author: 'Clainux', text: 'Le gustó a mi hijo', date: '2022-02-05' },
+    { id: 'seed-1', author: 'Ana', text: 'Entretenida', date: '2022-04-20' },
+    { id: 'seed-3', author: 'Bruno', text: 'Le gustó a mi hijo', date: '2022-02-05' },
   ]
   const stored = [{ id: 'local-1', author: 'Ana', text: 'Recién vista', date: '2026-10-29' }]
 

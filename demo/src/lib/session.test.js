@@ -99,7 +99,7 @@ test('sin storage disponible la sesión funciona en memoria', () => {
 })
 
 test('las dos cuentas del TP están en un solo lugar y se pueden recorrer', () => {
-  assert.deepEqual(DEMO_ACCOUNTS.map((account) => account.user), ['Yuka', 'Clainux'])
+  assert.deepEqual(DEMO_ACCOUNTS.map((account) => account.user), ['Ana', 'Bruno'])
 })
 
 test('validateLogin acepta cada una de las dos cuentas del TP', () => {
@@ -121,6 +121,6 @@ test('signIn guarda el nombre de la cuenta con la que se entró', () => {
   const result = signIn(storage, { user: account.user, password: account.password })
 
   assert.equal(result.ok, true)
-  assert.deepEqual(result.session, { user: 'Clainux' })
-  assert.deepEqual(readSession(storage), { user: 'Clainux' })
+  assert.deepEqual(result.session, { user: 'Bruno' })
+  assert.deepEqual(readSession(storage), { user: 'Bruno' })
 })

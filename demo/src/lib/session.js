@@ -8,8 +8,8 @@ export const SESSION_KEY = `${STORAGE_PREFIX}session`
  * las trae cargadas y la pantalla avisa que es un ingreso simulado, sin backend.
  */
 export const DEMO_ACCOUNTS = Object.freeze([
-  Object.freeze({ user: 'Yuka', password: '123' }),
-  Object.freeze({ user: 'Clainux', password: '456' }),
+  Object.freeze({ user: 'Ana', password: '123' }),
+  Object.freeze({ user: 'Bruno', password: '456' }),
 ])
 
 /** Cuenta con la que arranca cargado el formulario. */
