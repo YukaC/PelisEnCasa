@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Pelis en Casa — cartelera de cine de barrio.
+   Oscuro: la marquesina nocturna del TP (negro, rojo, grises neutros).
+   Claro: el programa impreso de la misma sala (papel cálido, tinta, mismo rojo).
+   Un solo acento, serif de sistema para títulos, sans para UI.
+   Los tokens viven acá y en ningún otro lado.
+   ========================================================================== */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme static {
+  /* color — oscuro, la paleta original */
+  --color-bg: #000;
+  --color-surface: #0a0a0a;
+  --color-raised: #141414;
+  --color-glow: #151515;
+  --color-line: #242424;
+  --color-line-strong: #3a3a3a;
+  --color-fg: #e0e0e0;
+  --color-fg-dim: #b4b4b4;
+  --color-fg-mute: #a1a1a1;
+  /* The TP's accent was hsla(0, 100%, 50%, 0.8); kept as a solid red. */
+  --color-accent: #ff2d2d;
+  /* Accent used as text: same red on black, darkened on paper to clear 4.5:1. */
+  --color-accent-text: #ff2d2d;
+  --color-accent-deep: #832525;
+  --color-on-accent: #fff;
+  --color-danger: #ffb4a8;
+  --color-shade: #000;
+
+  /* tipografía */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
+    "Times New Roman", serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-step-n1: 0.8125rem;
+  --text-step-0: 0.9375rem;
+  --text-step-1: 1.0625rem;
+  --text-step-2: clamp(1.25rem, 1.15rem + 0.6vw, 1.5rem);
+  --text-step-3: clamp(1.6rem, 1.35rem + 1.4vw, 2.15rem);
+  --text-step-4: clamp(2.15rem, 1.55rem + 3vw, 3.5rem);
+  --text-label: 0.6875rem;
+
+  --container-page: 72rem;
+  --container-measure: 64ch;
+
+  --shadow-poster: 0 22px 36px -26px var(--color-shade);
+  --shadow-lift: 0 18px 32px -22px var(--color-shade);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #f6f1e7;
+  --color-surface: #fbf8f1;
+  --color-raised: #efe8da;
+  --color-glow: #fffdf8;
+  --color-line: #ddd3c0;
+  --color-line-strong: #b9ad96;
+  --color-fg: #1a1613;
+  --color-fg-dim: #4a433b;
+  --color-fg-mute: #655c51;
+  --color-accent-text: #b81212;
+  --color-accent-deep: #c9a09a;
+  --color-danger: #9f2114;
+  --color-shade: rgb(70 48 24 / 0.55);
+}
+
+/* Puente mientras dura la migración: demo.css todavía lee los nombres viejos. */
+:root {
+  --ink-950: var(--color-bg);
+  --ink-900: var(--color-surface);
+  --ink-800: var(--color-raised);
+  --line: var(--color-line);
+  --line-strong: var(--color-line-strong);
+  --paper: var(--color-fg);
+  --paper-dim: var(--color-fg-dim);
+  --paper-mute: var(--color-fg-mute);
+  --accent: var(--color-accent);
+  --accent-deep: var(--color-accent-deep);
+  --danger: var(--color-danger);
+  --step--1: var(--text-step-n1);
+  --step-0: var(--text-step-0);
+  --step-1: var(--text-step-1);
+  --step-2: var(--text-step-2);
+  --step-3: var(--text-step-3);
+  --step-4: var(--text-step-4);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --radius: 6px;
+  --radius-lg: 12px;
+  --measure: 64ch;
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+}

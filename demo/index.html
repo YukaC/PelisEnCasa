@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
@@ -11,6 +11,20 @@
     />
     <link rel="icon" href="/logo2.png" type="image/png" />
     <title>Pelis en Casa — cartelera demo</title>
+    <script>
+      // Sets the theme before first paint: stored choice, else the system's.
+      ;(function () {
+        var stored = null
+        try {
+          stored = localStorage.getItem('pelis-demo:theme')
+        } catch (error) {}
+        var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        var theme = stored === 'dark' || stored === 'light' ? stored : dark ? 'dark' : 'light'
+        document.documentElement.dataset.theme = theme
+        var meta = document.querySelector('meta[name="theme-color"]')
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#000000' : '#f6f1e7')
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
