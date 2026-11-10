@@ -204,3 +204,89 @@ test('readFilms vuelve a la semilla si lo guardado no tiene forma válida', () =
   assert.deepEqual(readFilms(createStorage({ [FILMS_KEY]: '[{"id":"x"}]' }), SEED), SEED)
   assert.deepEqual(readFilms(null, SEED), SEED)
 })
+
+const POSTER = 'data:image/jpeg;base64,AAAA'
+const BANNER = 'data:image/jpeg;base64,BBBB'
+const OTHER_POSTER = 'data:image/png;base64,CCCC'
+
+function fullStorage(initial = {}) {
+  return {
+    ...createStorage(initial),
+    setItem: () => {
+      throw new Error('QuotaExceededError')
+    },
+  }
+}
+
+const withImages = (id, images) => SEED.map((film) => (film.id === id ? { ...film, ...images } : film))
+
+test('addFilm guarda el póster y el banner que se subieron', () => {
+  const storage = createStorage()
+  const result = addFilm(storage, SEED, SESSION, { ...INPUT, poster: POSTER, banner: BANNER })
+
+  assert.equal(result.ok, true)
+  assert.equal(result.film.poster, POSTER)
+  assert.equal(result.film.banner, BANNER)
+  assert.equal(readFilms(storage, SEED).at(-1).poster, POSTER)
+})
+
+test('addFilm sin imágenes deja el registro con la forma exacta del TP', () => {
+  const result = addFilm(createStorage(), SEED, SESSION, INPUT)
+
+  assert.equal('poster' in result.film, false)
+  assert.equal('banner' in result.film, false)
+})
+
+test('editFilm conserva las imágenes cuando no se elige una nueva', () => {
+  const films = withImages(3, { poster: POSTER, banner: BANNER })
+  const result = editFilm(createStorage(), films, SESSION, 3, INPUT)
+
+  assert.equal(result.ok, true)
+  assert.equal(result.film.poster, POSTER)
+  assert.equal(result.film.banner, BANNER)
+})
+
+test('editFilm reemplaza sólo la imagen que se volvió a elegir', () => {
+  const films = withImages(3, { poster: POSTER, banner: BANNER })
+  const result = editFilm(createStorage(), films, SESSION, 3, { ...INPUT, poster: OTHER_POSTER })
+
+  assert.equal(result.film.poster, OTHER_POSTER)
+  assert.equal(result.film.banner, BANNER)
+})
+
+test('editFilm borra la imagen cuando se pide volver a la de por defecto', () => {
+  const films = withImages(3, { poster: POSTER, banner: BANNER })
+  const result = editFilm(createStorage(), films, SESSION, 3, { ...INPUT, poster: null })
+
+  assert.equal('poster' in result.film, false)
+  assert.equal(result.film.banner, BANNER)
+})
+
+test('addFilm avisa cuando no hay lugar y deja el catálogo guardado intacto', () => {
+  const storage = fullStorage({ [FILMS_KEY]: JSON.stringify(SEED) })
+  const before = storage.dump()
+  const result = addFilm(storage, SEED, SESSION, { ...INPUT, poster: POSTER })
+
+  assert.equal(result.ok, false)
+  assert.equal(result.status, 'storage-full')
+  assert.match(result.message, /No hay lugar/)
+  assert.deepEqual(storage.dump(), before)
+})
+
+test('editFilm avisa cuando no hay lugar y deja el catálogo guardado intacto', () => {
+  const films = withImages(3, { poster: POSTER })
+  const storage = fullStorage({ [FILMS_KEY]: JSON.stringify(films) })
+  const before = storage.dump()
+  const result = editFilm(storage, films, SESSION, 3, { ...INPUT, poster: OTHER_POSTER })
+
+  assert.equal(result.ok, false)
+  assert.equal(result.status, 'storage-full')
+  assert.deepEqual(storage.dump(), before)
+})
+
+test('sin storage el catálogo igual se puede modificar en memoria', () => {
+  const result = addFilm(null, SEED, SESSION, { ...INPUT, poster: POSTER })
+
+  assert.equal(result.ok, true)
+  assert.equal(result.films.at(-1).poster, POSTER)
+})

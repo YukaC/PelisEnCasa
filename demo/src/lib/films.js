@@ -13,6 +13,7 @@ const MESSAGES = {
   duplicate: 'Ese nombre ya existe.',
   notFound: 'Esa película no existe.',
   hasComments: 'No se puede eliminar una película con comentarios.',
+  storageFull: 'No hay lugar en este navegador para guardar la imagen. Probá con una más chica.',
 }
 
 const YEAR = /^\d{4}$/
@@ -62,9 +63,26 @@ export function validateFilm(input) {
   return errors
 }
 
-/** Arma el registro con la forma de `db.json`: ids numéricos, año y score como texto. */
-function toRawFilm(id, input) {
-  return {
+/**
+ * Imagen que queda en el registro: `undefined` conserva la que estaba, `null` la borra
+ * y un `data:` URL la reemplaza.
+ * @param {unknown} next
+ * @param {string | undefined} current
+ * @returns {string | null}
+ */
+function pickImage(next, current) {
+  if (next === undefined) return current ?? null
+  if (next === null) return null
+  return text(next) || null
+}
+
+/**
+ * Arma el registro con la forma de `db.json`: ids numéricos, año y score como texto.
+ * Las imágenes sólo aparecen cuando la película tiene una subida en esta demo, así que
+ * una película cualquiera sigue teniendo exactamente la forma del TP.
+ */
+function toRawFilm(id, input, previous = null) {
+  const film = {
     id,
     nombre: text(input.nombre),
     sinopsis: text(input.sinopsis),
@@ -76,6 +94,13 @@ function toRawFilm(id, input) {
     year: text(input.year),
     score: text(input.score).replace(',', '.'),
   }
+
+  const poster = pickImage(input.poster, previous?.poster)
+  if (poster) film.poster = poster
+  const banner = pickImage(input.banner, previous?.banner)
+  if (banner) film.banner = banner
+
+  return film
 }
 
 function nameTaken(films, nombre, exceptId = null) {
@@ -83,11 +108,21 @@ function nameTaken(films, nombre, exceptId = null) {
   return films.some((film) => film.id !== exceptId && film.nombre.trim().toLowerCase() === wanted)
 }
 
+/**
+ * Guarda el catálogo. Devuelve `false` cuando el navegador no tiene más lugar, así la
+ * pantalla puede avisar en vez de mostrar como guardado algo que nunca se guardó.
+ * @param {Storage|null} storage
+ * @param {object[]} films
+ * @returns {boolean}
+ */
 function writeFilms(storage, films) {
+  if (!storage) return true
   try {
-    storage?.setItem(FILMS_KEY, JSON.stringify(films))
+    storage.setItem(FILMS_KEY, JSON.stringify(films))
+    return true
   } catch {
     // sin storage disponible: el cambio dura lo que dure la pestaña
+    return false
   }
 }
 
@@ -139,7 +174,7 @@ export function addFilm(storage, films, session, input) {
   const nextId = films.reduce((max, film) => Math.max(max, film.id), 0) + 1
   const film = toRawFilm(nextId, input)
   const next = [...films, film]
-  writeFilms(storage, next)
+  if (!writeFilms(storage, next)) return { ok: false, status: 'storage-full', message: MESSAGES.storageFull }
   return { ok: true, film, films: next }
 }
 
@@ -153,7 +188,8 @@ export function addFilm(storage, films, session, input) {
  */
 export function editFilm(storage, films, session, id, input) {
   if (!session) return { ok: false, status: 'unauthorized', message: MESSAGES.editUnauthorized }
-  if (!films.some((film) => film.id === id)) {
+  const previous = films.find((film) => film.id === id)
+  if (!previous) {
     return { ok: false, status: 'not-found', message: MESSAGES.notFound }
   }
 
@@ -163,9 +199,9 @@ export function editFilm(storage, films, session, id, input) {
     return { ok: false, status: 'conflict', errors: { nombre: MESSAGES.duplicate } }
   }
 
-  const film = toRawFilm(id, input)
+  const film = toRawFilm(id, input, previous)
   const next = films.map((current) => (current.id === id ? film : current))
-  writeFilms(storage, next)
+  if (!writeFilms(storage, next)) return { ok: false, status: 'storage-full', message: MESSAGES.storageFull }
   return { ok: true, film, films: next }
 }
 
