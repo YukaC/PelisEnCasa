@@ -62,7 +62,7 @@ export default function LoginForm({ onSuccess }) {
       </p>
 
       <div className="form__row">
-        <label className="field__label" htmlFor={userId}>
+        <label className="field-label" htmlFor={userId}>
           Usuario
         </label>
         <input
@@ -90,7 +90,7 @@ export default function LoginForm({ onSuccess }) {
       </div>
 
       <div className="form__row">
-        <label className="field__label" htmlFor={passwordId}>
+        <label className="field-label" htmlFor={passwordId}>
           Contraseña
         </label>
         <input
@@ -117,7 +117,7 @@ export default function LoginForm({ onSuccess }) {
         </AnimatePresence>
       </div>
 
-      <motion.button className="button" type="submit" {...pressMotion(reduced)}>
+      <motion.button className="btn" type="submit" {...pressMotion(reduced)}>
         Iniciar sesión
       </motion.button>
 

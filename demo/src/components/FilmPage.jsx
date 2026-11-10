@@ -107,11 +107,11 @@ function FilmDetail({ film }) {
 
           {session && (
             <div className="film__actions">
-              <a className="button button--ghost" href={`#/film/${film.id}/editar`}>
+              <a className="btn-ghost" href={`#/film/${film.id}/editar`}>
                 Editar película
               </a>
               <motion.button
-                className="button button--ghost"
+                className="btn-ghost"
                 type="button"
                 onClick={handleDelete}
                 onBlur={() => setConfirmingDelete(false)}
@@ -140,7 +140,7 @@ function FilmDetail({ film }) {
         ) : (
           <div className="login-prompt">
             <p>Sólo quien inició sesión puede dejar una reseña.</p>
-            <a className="button" href={`#/login?next=/film/${film.id}`}>
+            <a className="btn" href={`#/login?next=/film/${film.id}`}>
               Iniciar sesión para comentar
             </a>
           </div>

@@ -50,7 +50,7 @@ function Field({ label, error, reduced, children }) {
 
   return (
     <div className="form__row">
-      <label className="field__label" htmlFor={id}>
+      <label className="field-label" htmlFor={id}>
         {label}
       </label>
       {children({
@@ -312,7 +312,7 @@ function FilmForm({ film, rawFilms, session }) {
           />
         ))}
 
-        <motion.button className="button" type="submit" disabled={busy} {...pressMotion(reduced)}>
+        <motion.button className="btn" type="submit" disabled={busy} {...pressMotion(reduced)}>
           {film ? 'Guardar cambios' : 'Subir película'}
         </motion.button>
 

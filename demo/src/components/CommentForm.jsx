@@ -61,7 +61,7 @@ export default function CommentForm({ filmId, author, onSaved }) {
       </p>
 
       <div className="form__row">
-        <label className="field__label" htmlFor={textId}>
+        <label className="field-label" htmlFor={textId}>
           Comentario
         </label>
         <textarea
@@ -85,7 +85,7 @@ export default function CommentForm({ filmId, author, onSaved }) {
         </AnimatePresence>
       </div>
 
-      <motion.button className="button" type="submit" {...pressMotion(reduced)}>
+      <motion.button className="btn" type="submit" {...pressMotion(reduced)}>
         Publicar comentario
       </motion.button>
 

@@ -18,6 +18,7 @@
   --color-glow: #151515;
   --color-line: #242424;
   --color-line-strong: #3a3a3a;
+  --color-line-hover: #5c5c5c;
   --color-fg: #e0e0e0;
   --color-fg-dim: #b4b4b4;
   --color-fg-mute: #a1a1a1;
@@ -26,6 +27,7 @@
   /* Accent used as text: same red on black, darkened on paper to clear 4.5:1. */
   --color-accent-text: #ff2d2d;
   --color-accent-deep: #832525;
+  --color-accent-hover: #832525;
   --color-on-accent: #fff;
   --color-danger: #ffb4a8;
   --color-shade: #000;
@@ -50,6 +52,8 @@
 
   --shadow-poster: 0 22px 36px -26px var(--color-shade);
   --shadow-lift: 0 18px 32px -22px var(--color-shade);
+  --shadow-card: 0 26px 44px -22px var(--color-shade), 0 0 0 1px rgb(255 45 45 / 0.18);
+  --shadow-focus: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 }
 
 :root {
@@ -65,11 +69,13 @@
   --color-glow: #fffdf8;
   --color-line: #ddd3c0;
   --color-line-strong: #b9ad96;
+  --color-line-hover: #8f836d;
   --color-fg: #1a1613;
   --color-fg-dim: #4a433b;
   --color-fg-mute: #655c51;
   --color-accent-text: #b81212;
   --color-accent-deep: #c9a09a;
+  --color-accent-hover: #b81212;
   --color-danger: #9f2114;
   --color-shade: rgb(70 48 24 / 0.55);
 }
@@ -133,9 +139,59 @@
     text-decoration-line: underline;
   }
 
+  input[type="search"],
+  input[type="text"],
+  input[type="password"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-fg);
+    font-size: var(--text-step-0);
+    transition: border-color 0.15s ease;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-fg-mute);
+    opacity: 1;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--color-line-hover);
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-accent) 50%),
+      linear-gradient(135deg, var(--color-accent) 50%, transparent 50%);
+    background-position: calc(100% - 1.05rem) 1.05rem, calc(100% - 0.7rem) 1.05rem;
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 5.5rem;
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-focus);
   }
 
   ::selection {
@@ -188,5 +244,72 @@
 
   &::after {
     bottom: 0;
+  }
+}
+
+/* Etiqueta de un campo de formulario. */
+@utility field-label {
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-fg-mute);
+}
+
+/* Botón principal: el rojo del cintillo. */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  color: var(--color-on-accent);
+  font-weight: 600;
+  font-size: var(--text-step-0);
+  text-decoration-line: none;
+  cursor: pointer;
+  transform-origin: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+/* Botón secundario: sólo borde. */
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background-color: transparent;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-fg);
+  font-weight: 600;
+  font-size: var(--text-step-0);
+  text-decoration-line: none;
+  cursor: pointer;
+  transform-origin: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-raised);
+    border-color: var(--color-accent);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 }

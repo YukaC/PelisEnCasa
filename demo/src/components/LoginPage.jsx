@@ -18,7 +18,7 @@ export default function LoginPage({ next = '/', notice, stay = false }) {
           <p className="auth__notice">
             Ya iniciaste sesión como <strong>{session.user}</strong>.
           </p>
-          <a className="button" href="#/">
+          <a className="btn" href="#/">
             Ir a la cartelera
           </a>
         </>

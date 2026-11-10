@@ -15,16 +15,17 @@ export default function FilmCard({ film }) {
 
   return (
     <motion.a
-      className="film-card"
+      className="group flex h-full flex-col gap-3 no-underline"
       href={`#/film/${film.id}`}
       {...cardMotion({ reduced, finePointer })}
     >
-      <div className="film-card__media">
-        <motion.span className="film-card__lift" variants={CARD_LIFT_VARIANTS} aria-hidden="true" />
+      <div className="relative">
+        <motion.span className="pointer-events-none absolute inset-x-[5%] top-[8%] -bottom-[4%] rounded-xl opacity-0 shadow-card" variants={CARD_LIFT_VARIANTS} aria-hidden="true" />
 
-        <div className="film-card__poster">
-          <motion.div className="film-card__poster-inner" variants={POSTER_VARIANTS}>
+        <div className="relative aspect-2/3 overflow-hidden rounded-md bg-raised shadow-poster">
+          <motion.div className="size-full" variants={POSTER_VARIANTS}>
             <SafeImage
+              className="size-full object-cover"
               src={imageUrl(film, 'poster')}
               alt={`Poster de ${film.name}`}
               width="300"
@@ -34,20 +35,20 @@ export default function FilmCard({ film }) {
           </motion.div>
         </div>
 
-        <span className="film-card__score">
+        <span className="absolute top-2 right-2 rounded-md bg-black/85 px-[0.4rem] py-[0.1rem] text-step-n1 font-semibold text-accent tabular-nums">
           <span aria-hidden="true">★ </span>
           {formatScore(film.score)}
           <span className="sr-only"> de 10</span>
         </span>
       </div>
 
-      <div className="film-card__body">
-        <h3 className="film-card__title">{film.name}</h3>
-        <p className="film-card__meta">
+      <div className="flex flex-col gap-[0.15rem]">
+        <h3 className="text-step-1 font-semibold decoration-accent decoration-1 underline-offset-[0.2em] group-hover:underline group-focus-visible:underline">{film.name}</h3>
+        <p className="text-step-n1 text-fg-dim tabular-nums">
           {film.year} · {film.duration}
         </p>
-        <p className="film-card__genres">{film.genres.join(' · ')}</p>
-        <p className="film-card__director">{film.directors.join(', ')}</p>
+        <p className="text-step-n1 text-fg-mute">{film.genres.join(' · ')}</p>
+        <p className="text-step-n1 text-fg-mute">{film.directors.join(', ')}</p>
       </div>
     </motion.a>
   )
