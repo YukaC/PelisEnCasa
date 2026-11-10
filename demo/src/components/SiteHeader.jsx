@@ -53,7 +53,7 @@ export default function SiteHeader({ loginHref = '#/login' }) {
           aria-label="Pelis en Casa, ir a las películas"
         >
           {/* El cintillo rojo del TP original: es el logo y ya dice el nombre. */}
-          <img className="h-9 w-auto sm:h-10" src="/logo.png" alt="" width="100" height="100" />
+          <img className="h-11 w-auto sm:h-12" src="/logo.png" alt="" width="100" height="100" />
           <span className="hidden text-label tracking-[0.18em] text-fg-mute uppercase lg:inline">
             Reseñas de cine
           </span>
