@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Pelis en Casa — cartelera de cine de barrio.
+   Oscuro: la marquesina nocturna del TP (negro, rojo, grises neutros).
+   Claro: el programa impreso de la misma sala (papel cálido, tinta, mismo rojo).
+   Un solo acento, serif de sistema para títulos, sans para UI.
+   Los tokens viven acá y en ningún otro lado.
+   ========================================================================== */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme static {
+  /* color — oscuro, la paleta original */
+  --color-bg: #000;
+  --color-surface: #0a0a0a;
+  --color-raised: #141414;
+  --color-glow: #151515;
+  --color-line: #242424;
+  --color-line-strong: #3a3a3a;
+  --color-line-hover: #5c5c5c;
+  --color-fg: #e0e0e0;
+  --color-fg-dim: #b4b4b4;
+  --color-fg-mute: #a1a1a1;
+  /* The TP's accent was hsla(0, 100%, 50%, 0.8); kept as a solid red. */
+  --color-accent: #ff2d2d;
+  /* Accent used as text: same red on black, darkened on paper to clear 4.5:1. */
+  --color-accent-text: #ff2d2d;
+  /* Red that carries white text (buttons, skip link): #ff2d2d only reaches 3.7:1. */
+  --color-accent-solid: #e01414;
+  --color-accent-deep: #832525;
+  --color-accent-hover: #832525;
+  --color-on-accent: #fff;
+  --color-danger: #ffb4a8;
+  --color-shade: #000;
+
+  /* tipografía */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
+    "Times New Roman", serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-step-n1: 0.8125rem;
+  --text-step-0: 0.9375rem;
+  --text-step-1: 1.0625rem;
+  --text-step-2: clamp(1.25rem, 1.15rem + 0.6vw, 1.5rem);
+  --text-step-3: clamp(1.6rem, 1.35rem + 1.4vw, 2.15rem);
+  --text-step-4: clamp(2.15rem, 1.55rem + 3vw, 3.5rem);
+  --text-label: 0.6875rem;
+
+  --breakpoint-wide: 60rem;
+
+  --container-page: 72rem;
+  --container-measure: 64ch;
+
+  --shadow-poster: 0 22px 36px -26px var(--color-shade);
+  --shadow-lift: 0 18px 32px -22px var(--color-shade);
+  --shadow-card: 0 26px 44px -22px var(--color-shade), 0 0 0 1px rgb(255 45 45 / 0.18);
+  --shadow-focus: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #f6f1e7;
+  --color-surface: #fbf8f1;
+  --color-raised: #efe8da;
+  --color-glow: #fffdf8;
+  --color-line: #ddd3c0;
+  --color-line-strong: #b9ad96;
+  --color-line-hover: #8f836d;
+  --color-fg: #1a1613;
+  --color-fg-dim: #4a433b;
+  --color-fg-mute: #655c51;
+  --color-accent-text: #b81212;
+  --color-accent-deep: #c9a09a;
+  --color-accent-hover: #b81212;
+  --color-danger: #9f2114;
+  --color-shade: rgb(70 48 24 / 0.55);
+}
+
+@layer base {
+  body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    background-image: radial-gradient(90rem 40rem at 50% -12rem, var(--color-glow) 0%, transparent 70%);
+    color: var(--color-fg);
+    font-family: var(--font-ui);
+    font-size: var(--text-step-0);
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  a {
+    text-decoration-line: underline;
+  }
+
+  input[type="search"],
+  input[type="text"],
+  input[type="password"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-fg);
+    font-size: var(--text-step-0);
+    transition: border-color 0.15s ease;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-fg-mute);
+    opacity: 1;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--color-line-hover);
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-accent) 50%),
+      linear-gradient(135deg, var(--color-accent) 50%, transparent 50%);
+    background-position: calc(100% - 1.05rem) 1.05rem, calc(100% - 0.7rem) 1.05rem;
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 5.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-focus);
+  }
+
+  ::selection {
+    background: var(--color-accent-solid);
+    color: var(--color-on-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Etiqueta roja en mayúsculas que encabeza cada bloque. */
+@utility kicker {
+  font-family: var(--font-ui);
+  font-size: var(--text-step-n1);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* Las dos hileras de luces de la marquesina: pseudo-elementos con máscara. */
+@utility marquee-lights {
+  /* Una sola hilera de luces, pegada al borde inferior: guiño de marquesina, sin ruido. */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    height: 0.3rem;
+    background-image: radial-gradient(circle, var(--color-accent) 0 1.5px, transparent 2.1px);
+    background-size: 1.375rem 0.3rem;
+    background-position: center;
+    opacity: 0.5;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 18%, #000 82%, transparent);
+    pointer-events: none;
+  }
+}
+
+/* Velo del banner de la ficha: pseudo-elemento que funde la foto con el fondo.
+   Oscuro: el negro de la sala. Claro: el mismo papel del fondo, translúcido. */
+@utility banner-veil {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      var(--color-bg) 0%,
+      color-mix(in srgb, var(--color-bg) 25%, transparent) 55%,
+      transparent 100%
+    );
+  }
+}
+
+/* Etiqueta de un campo de formulario. */
+@utility field-label {
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-fg-mute);
+}
+
+/* Botón principal: el rojo del cintillo. */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background-color: var(--color-accent-solid);
+  border: 1px solid var(--color-accent-solid);
+  border-radius: var(--radius-md);
+  color: var(--color-on-accent);
+  font-weight: 600;
+  font-size: var(--text-step-0);
+  text-decoration-line: none;
+  cursor: pointer;
+  transform-origin: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+/* Botón secundario: sólo borde. */
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background-color: transparent;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-fg);
+  font-weight: 600;
+  font-size: var(--text-step-0);
+  text-decoration-line: none;
+  cursor: pointer;
+  transform-origin: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-raised);
+    border-color: var(--color-accent);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
