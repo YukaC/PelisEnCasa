@@ -1,9 +1,14 @@
-import { useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from 'motion/react'
 import FilmCard from './FilmCard.jsx'
 import SafeImage from './SafeImage.jsx'
 import { GUEST_LIMIT } from '../lib/films.js'
-import { firstSentence, pickFeatured } from '../lib/featured.js'
+import {
+  FEATURED_ROTATION_MS,
+  featuredOrder,
+  firstSentence,
+  nextFeaturedIndex,
+} from '../lib/featured.js'
 import { imageUrl } from '../lib/image.js'
 import { useCatalog } from '../lib/useCatalog.js'
 import { useSession } from '../lib/useSession.js'
@@ -55,8 +60,10 @@ export default function CatalogPage() {
   const [director, setDirector] = useState('')
   const [sort, setSort] = useState('score')
   const [page, setPage] = useState(1)
-  // Cambiar `pick` vuelve a tirar el dado de la película destacada.
-  const [pick, setPick] = useState(0)
+  // Posición dentro de la rotación de destacadas, y si quien navega la frenó.
+  const [featuredIndex, setFeaturedIndex] = useState(0)
+  const [rotationPaused, setRotationPaused] = useState(false)
+  const [heroEngaged, setHeroEngaged] = useState(false)
 
   const visibleFilms = useMemo(
     () => sortFilms(filterFilms(films, { query, genre, director }), sort),
@@ -67,11 +74,20 @@ export default function CatalogPage() {
   const currentPage = Math.min(page, pageCount)
   const pageFilms = visibleFilms.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
-  const featured = useMemo(
-    () => pickFeatured(films),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [films, pick],
-  )
+  // Todas las películas visibles, mezcladas: la portada las recorre de a una.
+  const rotation = useMemo(() => featuredOrder(films), [films])
+  const featured = rotation.length > 0 ? rotation[featuredIndex % rotation.length] : null
+  const rotates = rotation.length > 1
+  // Con movimiento reducido no avanza sola; tampoco mientras se la mira o se la usa.
+  const autoRotates = rotates && !reduced && !rotationPaused && !heroEngaged
+
+  useEffect(() => {
+    if (!autoRotates) return undefined
+    const timer = window.setInterval(() => {
+      setFeaturedIndex((current) => nextFeaturedIndex(current, rotation.length))
+    }, FEATURED_ROTATION_MS)
+    return () => window.clearInterval(timer)
+  }, [autoRotates, rotation.length])
 
   const hasFilters = Boolean(query.trim() || genre || director)
   const total = films.length
@@ -101,7 +117,6 @@ export default function CatalogPage() {
   return (
     <section aria-labelledby="catalog-title">
       <header className="flex max-w-2xl flex-col gap-3 pb-8">
-        <p className="kicker">Cartelera de barrio</p>
         <h1 id="catalog-title" className="text-step-4">Pelis en Casa</h1>
         <p className="max-w-measure text-fg-dim">
           Películas para elegir esta noche. Buscá por nombre, director o sinopsis, y entrá a la
@@ -110,28 +125,64 @@ export default function CatalogPage() {
       </header>
 
       {featured && (
-        <motion.article className="relative mb-8 overflow-hidden rounded-xl border border-line bg-surface" {...gridListMotion(reduced)}>
-          <SafeImage className="block h-40 w-full object-cover opacity-85 sm:h-56 dark:opacity-50" src={imageUrl(featured, 'banner')} alt="" aria-hidden="true" />
+        <motion.article
+          className="relative mb-8 overflow-hidden rounded-xl border border-line bg-surface"
+          onMouseEnter={() => setHeroEngaged(true)}
+          onMouseLeave={() => setHeroEngaged(false)}
+          onFocus={() => setHeroEngaged(true)}
+          onBlur={() => setHeroEngaged(false)}
+          {...gridListMotion(reduced)}
+        >
+          {/* La clave por película hace que cada destacada entre con el mismo fundido. */}
+          <motion.div key={featured.id} {...gridListMotion(reduced)}>
+            <SafeImage
+              className="block h-40 w-full object-cover opacity-85 sm:h-56 dark:opacity-50"
+              src={imageUrl(featured, 'banner')}
+              alt=""
+              aria-hidden="true"
+            />
+          </motion.div>
           <div className="flex flex-col gap-2 p-6">
             <p className="kicker">Destacada de la noche</p>
-            <h2 className="text-step-3 leading-[1.1]">{featured.name}</h2>
+            <h2 className="line-clamp-2 text-step-3 leading-[1.1]">{featured.name}</h2>
             <p className="text-step-n1 font-semibold tracking-[0.08em] text-fg-dim uppercase">
               {featured.year} · {featured.duration}
               {Number.isFinite(featured.score) ? ` · ${featured.score} de 10` : ''}
             </p>
-            <p className="max-w-measure text-fg-dim">{firstSentence(featured.synopsis)}</p>
-            <div className="mt-2 flex flex-wrap gap-3">
+            {/* Dos renglones fijos: la página no salta cuando cambia la destacada. */}
+            <p className="line-clamp-2 min-h-[3.2em] max-w-measure text-fg-dim">
+              {firstSentence(featured.synopsis)}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
               <a className="btn" href={`#/film/${featured.id}`}>
                 Ver la ficha
               </a>
-              <motion.button
-                className="btn-ghost"
-                type="button"
-                onClick={() => setPick((current) => current + 1)}
-                {...pressMotion(reduced)}
-              >
-                Otra al azar
-              </motion.button>
+              {rotates && (
+                <motion.button
+                  className="btn-ghost"
+                  type="button"
+                  onClick={() => setFeaturedIndex((current) => nextFeaturedIndex(current, rotation.length))}
+                  {...pressMotion(reduced)}
+                >
+                  Siguiente
+                </motion.button>
+              )}
+              {rotates && !reduced && (
+                <motion.button
+                  className="btn-ghost"
+                  type="button"
+                  aria-pressed={rotationPaused}
+                  onClick={() => setRotationPaused((current) => !current)}
+                  {...pressMotion(reduced)}
+                >
+                  {rotationPaused ? 'Reanudar rotación' : 'Pausar rotación'}
+                </motion.button>
+              )}
+              {rotates && (
+                <p className="text-step-n1 font-semibold tracking-[0.08em] text-fg-mute uppercase tabular-nums">
+                  {(featuredIndex % rotation.length) + 1} de {rotation.length}
+                </p>
+              )}
             </div>
           </div>
         </motion.article>

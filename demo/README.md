@@ -114,7 +114,7 @@ La paleta y el logo son los del sitio original del TP, no una reinterpretación:
 las etiquetas en mayúscula sigan pasando AA), tipografía en `hsl(0, 0%, 88%)` y grises neutros.
 El cintillo rojo del logo vive en `public/logo.png` (cabecera y pie) y `public/logo2.png`
 (favicon); como el logo ya dice "Pelis en Casa", la cabecera lo usa como marca y sólo le suma
-el bajada "Cartelera de barrio".
+el nombre en texto, "Pelis en Casa".
 
 La tipografía sí es del rediseño: el serif de sistema en los títulos se queda, porque lo que
 se restauró fue el color y la marca, no la fuente.

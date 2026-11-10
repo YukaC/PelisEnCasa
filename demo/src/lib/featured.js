@@ -1,14 +1,32 @@
+/** Milisegundos que cada película destacada queda en la portada. */
+export const FEATURED_ROTATION_MS = 7000
+
 /**
- * Elige la película destacada de la portada, como el `/random` del TP.
- * `random` se inyecta para poder testear la elección sin depender del azar.
+ * Orden de la rotación de la portada: todas las películas visibles, mezcladas,
+ * una vez cada una. `random` se inyecta para testear la mezcla sin depender del azar.
  * @param {object[]} films películas que quien navega puede ver
  * @param {() => number} [random]
- * @returns {object | null}
+ * @returns {object[]} copia mezclada; la lista original no se toca
  */
-export function pickFeatured(films, random = Math.random) {
-  if (!Array.isArray(films) || films.length === 0) return null
-  const index = Math.min(films.length - 1, Math.max(0, Math.floor(random() * films.length)))
-  return films[index]
+export function featuredOrder(films, random = Math.random) {
+  if (!Array.isArray(films)) return []
+  const order = [...films]
+  for (let last = order.length - 1; last > 0; last -= 1) {
+    const pick = Math.min(last, Math.max(0, Math.floor(random() * (last + 1))))
+    ;[order[last], order[pick]] = [order[pick], order[last]]
+  }
+  return order
+}
+
+/**
+ * Posición siguiente de la rotación: al llegar al final vuelve a empezar.
+ * @param {number} index
+ * @param {number} length
+ * @returns {number}
+ */
+export function nextFeaturedIndex(index, length) {
+  if (!(length > 1)) return 0
+  return (index + 1) % length
 }
 
 /**

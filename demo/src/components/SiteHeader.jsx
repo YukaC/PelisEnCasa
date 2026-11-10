@@ -43,7 +43,7 @@ export default function SiteHeader({ loginHref = '#/login' }) {
         >
           {/* El cintillo rojo del TP original: es el logo, así que no lo repite el texto. */}
           <img className="h-auto w-16 flex-none" src="/logo.png" alt="" width="100" height="100" />
-          <span className="text-label tracking-[0.18em] text-fg-mute uppercase">Cartelera de barrio</span>
+          <span className="text-label tracking-[0.18em] text-fg-mute uppercase">Pelis en Casa</span>
         </a>
 
         <nav className="flex flex-wrap items-center gap-3 text-step-n1" aria-label="Navegación principal">
