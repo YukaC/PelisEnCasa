@@ -39,7 +39,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <a
-        className="absolute top-2 left-2 z-40 -translate-y-[200%] rounded-md bg-accent-solid px-4 py-2 font-semibold text-on-accent no-underline focus:translate-y-0"
+        className="absolute top-2 left-2 z-50 -translate-y-[200%] rounded-md bg-accent-solid px-4 py-2 font-semibold text-on-accent no-underline focus:translate-y-0"
         href="#contenido"
       >
         Saltar al contenido
