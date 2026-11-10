@@ -4,12 +4,17 @@ import CommentForm from './CommentForm.jsx'
 import NotFoundPage from './NotFoundPage.jsx'
 import SafeImage from './SafeImage.jsx'
 import ScoreMeter from './ScoreMeter.jsx'
-import { bannerUrl, getFilm, posterUrl, seedCommentsByFilm } from '../data/catalog.js'
+import { bannerUrl, posterUrl, seedCommentsByFilm } from '../data/catalog.js'
 import { commentsForFilm, readStoredComments, getStorage } from '../lib/comments.js'
-import { commentItemMotion } from '../lib/motion.js'
+import { deleteFilm } from '../lib/films.js'
+import { commentItemMotion, pressMotion } from '../lib/motion.js'
+import { navigate } from '../lib/route.js'
+import { commitFilms, useCatalog } from '../lib/useCatalog.js'
 import { formatDate, formatScore } from '../lib/format.js'
+import { useSession } from '../lib/useSession.js'
 
 export default function FilmPage({ filmId }) {
+  const { getFilm } = useCatalog()
   const film = getFilm(filmId)
   if (!film) return <NotFoundPage message="No hay ninguna película con ese id en la cartelera." />
   return <FilmDetail film={film} />
@@ -17,12 +22,31 @@ export default function FilmPage({ filmId }) {
 
 function FilmDetail({ film }) {
   const reduced = useReducedMotion()
+  const session = useSession()
+  const { rawFilms } = useCatalog()
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
   const [store, setStore] = useState(() => readStoredComments(getStorage()))
 
   const comments = useMemo(
     () => commentsForFilm(seedCommentsByFilm[film.id] ?? [], store[film.id] ?? []),
     [film.id, store],
   )
+
+  function handleDelete() {
+    if (!confirmingDelete) {
+      setConfirmingDelete(true)
+      return
+    }
+    const result = deleteFilm(getStorage(), rawFilms, session, film.id, comments.length)
+    if (!result.ok) {
+      setConfirmingDelete(false)
+      setDeleteError(result.message)
+      return
+    }
+    navigate('/')
+    commitFilms(result.films)
+  }
 
   return (
     <article className="film">
@@ -79,6 +103,26 @@ function FilmDetail({ film }) {
           </dl>
 
           <p className="film__synopsis">{film.synopsis}</p>
+
+          {session && (
+            <div className="film__actions">
+              <a className="button button--ghost" href={`#/film/${film.id}/editar`}>
+                Editar película
+              </a>
+              <motion.button
+                className="button button--ghost"
+                type="button"
+                onClick={handleDelete}
+                onBlur={() => setConfirmingDelete(false)}
+                {...pressMotion(reduced)}
+              >
+                {confirmingDelete ? 'Confirmar: borrar película' : 'Borrar película'}
+              </motion.button>
+              <p className="film__actions-status" role="alert">
+                {deleteError}
+              </p>
+            </div>
+          )}
         </div>
       </header>
 
@@ -90,10 +134,19 @@ function FilmDetail({ film }) {
           </p>
         </div>
 
-        <CommentForm filmId={film.id} onSaved={setStore} />
+        {session ? (
+          <CommentForm filmId={film.id} author={session.user} onSaved={setStore} />
+        ) : (
+          <div className="login-prompt">
+            <p>Sólo quien inició sesión puede dejar una reseña.</p>
+            <a className="button" href={`#/login?next=/film/${film.id}`}>
+              Iniciar sesión para comentar
+            </a>
+          </div>
+        )}
 
         {comments.length === 0 && (
-          <p className="comments__empty">Todavía no hay comentarios. Dejá el primero.</p>
+          <p className="comments__empty">Todavía no hay comentarios.</p>
         )}
 
         {/* La lista queda montada desde el arranque: así el primer comentario

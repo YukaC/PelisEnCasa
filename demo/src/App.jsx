@@ -6,6 +6,8 @@ import SiteHeader from './components/SiteHeader.jsx'
 import CatalogPage from './components/CatalogPage.jsx'
 import FilmPage from './components/FilmPage.jsx'
 import NotFoundPage from './components/NotFoundPage.jsx'
+import LoginPage from './components/LoginPage.jsx'
+import FilmFormPage from './components/FilmFormPage.jsx'
 
 /**
  * Marco de la vista actual: entra y sale con spring. Mientras está saliendo no
@@ -28,7 +30,8 @@ function RouteFrame({ children, ...motionProps }) {
 export default function App() {
   const route = useHashRoute()
   const reduced = useReducedMotion()
-  const routeKey = route.name === 'film' ? `film-${route.filmId}` : route.name
+  const routeKey = route.filmId ? `${route.name}-${route.filmId}` : route.name
+  const loginHref = route.name === 'film' ? `#/login?next=/film/${route.filmId}` : '#/login'
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
@@ -40,13 +43,16 @@ export default function App() {
         Saltar al contenido
       </a>
 
-      <SiteHeader />
+      <SiteHeader loginHref={loginHref} />
 
       <main id="contenido" className="page" tabIndex={-1}>
         <AnimatePresence mode="wait" initial={false}>
           <RouteFrame key={routeKey} {...pageMotion(reduced)}>
             {route.name === 'catalog' && <CatalogPage />}
             {route.name === 'film' && <FilmPage filmId={route.filmId} />}
+            {route.name === 'login' && <LoginPage next={route.next} />}
+            {route.name === 'film-new' && <FilmFormPage />}
+            {route.name === 'film-edit' && <FilmFormPage filmId={route.filmId} />}
             {route.name === 'not-found' && (
               <NotFoundPage message="Esa dirección no existe en la cartelera." />
             )}
@@ -58,8 +64,8 @@ export default function App() {
         <div className="footer__inner">
           <img className="footer__logo" src="/logo.png" alt="" width="100" height="100" />
           <p>
-            Pelis en Casa · demo estática de un TP de 2022, reescrita con React y Vite. Sin backend, sin
-            login, sin base de datos.
+            Pelis en Casa · demo estática de un TP de 2022, reescrita con React y Vite. Sin backend ni base
+            de datos: el login es simulado.
           </p>
         </div>
       </footer>

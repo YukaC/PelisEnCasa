@@ -3,16 +3,17 @@ import { AnimatePresence, motion, useAnimate, useReducedMotion } from 'motion/re
 import { addCommentToStore, getStorage } from '../lib/comments.js'
 import { SHAKE_STEPS, SPRINGS, fieldErrorMotion, pressMotion, statusMotion } from '../lib/motion.js'
 
-export default function CommentForm({ filmId, onSaved }) {
-  const nameId = useId()
+/**
+ * Formulario de reseña. Sólo se monta con sesión abierta: el autor es el usuario
+ * de la sesión, no un campo libre.
+ */
+export default function CommentForm({ filmId, author, onSaved }) {
   const textId = useId()
-  const nameErrorId = useId()
   const textErrorId = useId()
 
   const reduced = useReducedMotion()
   const [scope, animate] = useAnimate()
 
-  const [name, setName] = useState('')
   const [text, setText] = useState('')
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('')
@@ -36,7 +37,7 @@ export default function CommentForm({ filmId, onSaved }) {
   function handleSubmit(event) {
     event.preventDefault()
 
-    const result = addCommentToStore(getStorage(), filmId, { name, text })
+    const result = addCommentToStore(getStorage(), filmId, { name: author, text })
 
     if (!result.ok) {
       setErrors(result.errors)
@@ -46,7 +47,6 @@ export default function CommentForm({ filmId, onSaved }) {
     }
 
     setErrors({})
-    setName('')
     setText('')
     setStatus('Comentario publicado. Ya aparece en la lista.')
     onSaved(result.store)
@@ -55,33 +55,10 @@ export default function CommentForm({ filmId, onSaved }) {
   return (
     <motion.form className="form" onSubmit={handleSubmit} noValidate ref={scope}>
       <h3 className="form__title">Dejá tu comentario</h3>
-      <p className="form__hint">Se guarda en este navegador, no se envía a ningún servidor.</p>
-
-      <div className="form__row">
-        <label className="field__label" htmlFor={nameId}>
-          Tu nombre
-        </label>
-        <input
-          id={nameId}
-          type="text"
-          value={name}
-          autoComplete="name"
-          maxLength={60}
-          aria-invalid={errors.name ? 'true' : undefined}
-          aria-describedby={errors.name ? nameErrorId : undefined}
-          onChange={(event) => {
-            setName(event.target.value)
-            if (errors.name) setErrors((current) => ({ ...current, name: undefined }))
-          }}
-        />
-        <AnimatePresence initial={false}>
-          {errors.name && (
-            <motion.p className="form__error" id={nameErrorId} {...errorMotion}>
-              {errors.name}
-            </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
+      <p className="form__hint">
+        Comentás como <strong>{author}</strong>. Se guarda en este navegador, no se envía a ningún
+        servidor.
+      </p>
 
       <div className="form__row">
         <label className="field__label" htmlFor={textId}>

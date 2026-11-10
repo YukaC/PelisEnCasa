@@ -4,7 +4,7 @@
 
 Catálogo y fichas de un sitio de reseñas de películas, rehecho como demo para mostrar en una
 entrevista. Es la versión estática del TP 2022 (páginas HTML + jQuery contra una API Flask): acá no
-hay backend, no hay base de datos y no hay login.
+hay backend ni base de datos, y el login es simulado.
 
 - **React 19 + Vite 7**, JavaScript plano (`.jsx`). Sin TypeScript, sin router, sin Tailwind.
 - **`motion`** (v14, import `motion/react`) para los springs de interacción y de scroll. Es la única
@@ -13,14 +13,25 @@ dependencia de animación.
   `flask/static/` y viven en `public/films/`.
 - **Comentarios**: se guardan en `localStorage` del navegador, con el prefijo `pelis-demo:`.
   La semilla son los 3 comentarios del TP.
+- **Login simulado**: el botón «Iniciar sesión» del header lleva a `#/login`. Hay una única cuenta
+  de ejemplo (`demo` / `pelis2022`) que el formulario trae cargada; la sesión se guarda en
+  `localStorage` (`pelis-demo:session`).
+- **Reglas del TP que la demo respeta** (salen de `flask/app.py`):
+  - sin sesión se ven sólo las últimas 10 películas; con sesión, todas;
+  - sólo con sesión se puede comentar, y el autor es el usuario de la sesión;
+  - sólo con sesión se puede subir (`#/subir`), editar (`#/film/<id>/editar`) y borrar películas;
+  - no se puede subir una película con un nombre que ya existe;
+  - no se puede borrar una película que tiene comentarios.
+- **Catálogo editable**: las altas, ediciones y bajas se guardan en `localStorage`
+  (`pelis-demo:films`). Borrar los datos del sitio vuelve a la semilla del TP.
 
 ## Qué está simulado
 
 | Pieza del TP original | En esta demo |
 | --- | --- |
 | API Flask (`/peliculas`, `/generos`, `/directores`, `/peliculas/<id>/comentarios`) | JSON embebido, resuelto en `src/data/catalog.js` |
-| Alta de películas, edición y borrado (`add-film`, `edit-film`, `DELETE`) | **no existe** |
-| Login con usuario y contraseña | **no existe** (la tabla `usuarios` del TP no se copió: credenciales en claro y sin uso) |
+| Alta de películas, edición y borrado (`add-film`, `edit-film`, `DELETE`) | `src/lib/films.js`, con las mismas reglas, sobre `localStorage` |
+| Login con usuario y contraseña | **simulado** en `src/lib/session.js`: una cuenta de ejemplo, sin servidor (la tabla `usuarios` del TP no se copió: credenciales en claro) |
 | Comentarios en memoria del servidor | `localStorage`, por navegador; se pierden si se limpia el sitio |
 
 Nada de sinopsis, scores, películas ni comentarios fue inventado: todo sale de `flask/db.json`.
@@ -131,6 +142,6 @@ score y los comentarios aparecen en su estado final desde el primer frame, y el 
 
 ## Lo que quedó afuera (a propósito)
 
-Login, ABM de películas (alta/edición/borrado), roles de usuario, imágenes subidas por el usuario y
-cualquier llamada de red. La demo muestra el catálogo y la conversación alrededor de una película,
-que es lo que se puede defender en una entrevista.
+Login real contra un servidor, roles de usuario, imágenes subidas por el usuario (una película
+nueva usa la portada por defecto, como en el TP) y cualquier llamada de red. La demo reproduce
+las reglas del TP en el navegador, que es lo que se puede defender en una entrevista.

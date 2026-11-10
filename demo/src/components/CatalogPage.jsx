@@ -1,7 +1,9 @@
 import { useId, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from 'motion/react'
 import FilmCard from './FilmCard.jsx'
-import { directorOptions, films, genreOptions } from '../data/catalog.js'
+import { GUEST_LIMIT } from '../lib/films.js'
+import { useCatalog } from '../lib/useCatalog.js'
+import { useSession } from '../lib/useSession.js'
 import { gridItemMotion, gridListMotion, pressMotion } from '../lib/motion.js'
 import { filterFilms, sortFilms } from '../lib/search.js'
 
@@ -39,6 +41,8 @@ export default function CatalogPage() {
   const sortId = useId()
 
   const reduced = useReducedMotion()
+  const session = useSession()
+  const { films, allFilms, genreOptions, directorOptions } = useCatalog()
 
   const [query, setQuery] = useState('')
   const [genre, setGenre] = useState('')
@@ -47,7 +51,7 @@ export default function CatalogPage() {
 
   const visibleFilms = useMemo(
     () => sortFilms(filterFilms(films, { query, genre, director }), sort),
-    [query, genre, director, sort],
+    [films, query, genre, director, sort],
   )
 
   const hasFilters = Boolean(query.trim() || genre || director)
@@ -74,7 +78,7 @@ export default function CatalogPage() {
         <p className="kicker">Cartelera de barrio</p>
         <h1 id="catalog-title">Pelis en Casa</h1>
         <p className="catalog__lead">
-          Once películas para elegir esta noche. Buscá por nombre, director o sinopsis, y entrá a la
+          Películas para elegir esta noche. Buscá por nombre, director o sinopsis, y entrá a la
           ficha para leer los comentarios.
         </p>
       </header>
@@ -146,7 +150,9 @@ export default function CatalogPage() {
           {countLabel}
         </p>
         <p className="demo-note">
-          Demo: los datos son un JSON embebido y los comentarios se guardan en este navegador.
+          {!session && allFilms.length > GUEST_LIMIT
+            ? `Estás viendo las últimas ${GUEST_LIMIT}. Iniciá sesión para ver el catálogo completo.`
+            : 'Demo: los datos son un JSON embebido y los cambios se guardan en este navegador.'}
         </p>
       </div>
 
