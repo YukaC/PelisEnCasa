@@ -101,6 +101,8 @@ demo/
     │   ├── search.js       # normalización, búsqueda, filtros y orden (puro)
     │   ├── comments.js     # validación y persistencia en localStorage (puro + storage)
     │   ├── motion.js       # presets de spring, variants y helpers de movimiento (puro)
+    │   ├── theme.js        # tema guardado, resolución contra el sistema y alternancia (puro)
+    │   ├── useTheme.js     # hook del tema: aplica data-theme y escucha sistema y otras pestañas
     │   └── format.js       # score y fecha legible en es-AR
     └── styles/app.css      # Tailwind + tokens en @theme, tema claro/oscuro, un solo acento rojo
 ```
@@ -119,7 +121,7 @@ se restauró fue el color y la marca, no la fuente.
 
 ## Accesibilidad
 
-Mobile-first, contraste AA sobre negro, foco visible por teclado, skip link, `alt` real en
+Mobile-first, contraste AA en los dos temas, foco visible por teclado, skip link, `alt` real en
 posters, `aria-live` en el conteo/estado vacío del catálogo y en el alta de comentarios, y errores de
 formulario asociados con `aria-describedby`.
 
