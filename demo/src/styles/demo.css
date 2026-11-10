@@ -483,8 +483,3 @@
   color: var(--paper-mute);
 }
 
-@media (min-width: 40rem) {
-  .hero__banner {
-    height: 14rem;
-  }
-}

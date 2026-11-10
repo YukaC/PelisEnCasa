@@ -111,7 +111,7 @@ export default function CatalogPage() {
 
       {featured && (
         <motion.article className="relative mb-8 overflow-hidden rounded-xl border border-line bg-surface" {...gridListMotion(reduced)}>
-          <SafeImage className="block h-40 w-full object-cover opacity-85 dark:opacity-50" src={imageUrl(featured, 'banner')} alt="" aria-hidden="true" />
+          <SafeImage className="block h-40 w-full object-cover opacity-85 sm:h-56 dark:opacity-50" src={imageUrl(featured, 'banner')} alt="" aria-hidden="true" />
           <div className="flex flex-col gap-2 p-6">
             <p className="kicker">Destacada de la noche</p>
             <h2 className="text-step-3 leading-[1.1]">{featured.name}</h2>
