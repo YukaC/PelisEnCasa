@@ -67,13 +67,13 @@ export default function App() {
       </main>
 
       <footer className="border-t border-line bg-surface">
-        <div className="mx-auto flex max-w-page items-center gap-3 px-4 py-6">
-          <img className="h-auto w-9 flex-none opacity-75" src="/logo.png" alt="" width="100" height="100" />
-          <p className="text-step-n1 text-fg-mute sm:px-8">
+        <div className="mx-auto flex max-w-page flex-wrap items-center gap-3 px-4 py-6">
+          <img className="h-auto w-18 flex-none opacity-75" src="/logo.png" alt="" width="100" height="100" />
+          <p className="min-w-0 flex-1 text-step-n1 text-fg-mute sm:px-8">
             Pelis en Casa · reseñas de cine. Demo estática del TP de 2022 (Flask con un JSON),
             reescrita con React y Vite: sin backend ni base de datos, con login simulado.
           </p>
-          <nav className="ml-auto flex flex-wrap items-center gap-4 text-step-n1" aria-label="Enlaces del pie">
+          <nav className="flex w-full flex-wrap items-center gap-4 text-step-n1 sm:ml-auto sm:w-auto" aria-label="Enlaces del pie">
             <a
               className="border-b border-line-strong text-fg-dim no-underline hover:border-accent hover:text-fg"
               href="#/"
