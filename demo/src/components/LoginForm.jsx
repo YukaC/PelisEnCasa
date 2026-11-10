@@ -1,11 +1,11 @@
 import { useId, useState } from 'react'
 import { AnimatePresence, motion, useAnimate, useReducedMotion } from 'motion/react'
 import { getStorage } from '../lib/comments.js'
-import { DEMO_ACCOUNT, signIn } from '../lib/session.js'
+import { DEMO_ACCOUNT, DEMO_ACCOUNTS, signIn } from '../lib/session.js'
 import { SHAKE_STEPS, SPRINGS, fieldErrorMotion, pressMotion } from '../lib/motion.js'
 
 /**
- * Ingreso simulado: no hay backend. La cuenta de ejemplo viene cargada para que
+ * Ingreso simulado: no hay backend. La primera cuenta del TP viene cargada para que
  * quien mira la demo entre con un clic, y se puede editar para ver el rechazo.
  */
 export default function LoginForm({ onSuccess }) {
@@ -57,7 +57,8 @@ export default function LoginForm({ onSuccess }) {
   return (
     <motion.form className="form" onSubmit={handleSubmit} noValidate ref={scope}>
       <p className="form__hint">
-        Ingreso simulado: la cuenta de ejemplo ya está cargada y nada sale de este navegador.
+        Ingreso simulado, sin backend: vienen las dos cuentas del TP ({DEMO_ACCOUNT.user}/{DEMO_ACCOUNT.password} y{' '}
+        {DEMO_ACCOUNTS[1].user}/{DEMO_ACCOUNTS[1].password}). Nada sale de este navegador.
       </p>
 
       <div className="form__row">

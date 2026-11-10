@@ -4,12 +4,22 @@ import { STORAGE_PREFIX } from './comments.js'
 export const SESSION_KEY = `${STORAGE_PREFIX}session`
 
 /**
- * Única cuenta de la demo. No es un secreto: el formulario la trae cargada.
- * La tabla `usuarios` del TP no se copió, así que acá no hay credenciales reales.
+ * Las dos cuentas que trae `db['usuarios']` en el TP. No son un secreto: el formulario
+ * las trae cargadas y la pantalla avisa que es un ingreso simulado, sin backend.
  */
-export const DEMO_ACCOUNT = Object.freeze({ user: 'demo', password: 'pelis2022' })
+export const DEMO_ACCOUNTS = Object.freeze([
+  Object.freeze({ user: 'Yuka', password: '123' }),
+  Object.freeze({ user: 'Clainux', password: '456' }),
+])
 
-const WRONG_CREDENTIALS = 'Usuario o contraseña incorrectos. Usá la cuenta de ejemplo.'
+/** Cuenta con la que arranca cargado el formulario. */
+export const DEMO_ACCOUNT = DEMO_ACCOUNTS[0]
+
+const WRONG_CREDENTIALS = 'Usuario o contraseña incorrectos. Usá una de las cuentas de ejemplo.'
+
+function findAccount(user, password) {
+  return DEMO_ACCOUNTS.find((account) => account.user === user && account.password === password) ?? null
+}
 
 /** Sesión vigente. Es la fuente de verdad: el storage sólo la hace sobrevivir a una recarga. */
 let current = null
@@ -34,7 +44,7 @@ function setCurrent(next) {
 
 /**
  * Valida el formulario de ingreso. Devuelve errores por campo, o `form` cuando
- * los datos están completos pero no son los de la cuenta de ejemplo.
+ * los datos están completos pero no son los de ninguna de las dos cuentas del TP.
  * @param {{ user?: string, password?: string }} input
  * @returns {{ user?: string, password?: string, form?: string }}
  */
@@ -48,7 +58,7 @@ export function validateLogin(input) {
   if (!password) errors.password = 'Poné tu contraseña.'
   if (errors.user || errors.password) return errors
 
-  if (user !== DEMO_ACCOUNT.user || password !== DEMO_ACCOUNT.password) {
+  if (!findAccount(user, password)) {
     errors.form = WRONG_CREDENTIALS
   }
   return errors
@@ -72,7 +82,7 @@ export function readSession(storage) {
 }
 
 /**
- * Abre la sesión si las credenciales son las de la cuenta de ejemplo.
+ * Abre la sesión si las credenciales son las de alguna de las cuentas del TP.
  * Un intento inválido no toca el storage ni la sesión vigente.
  * @param {Storage|null} storage
  * @param {{ user?: string, password?: string }} input
@@ -82,7 +92,8 @@ export function signIn(storage, input) {
   const errors = validateLogin(input)
   if (errors.user || errors.password || errors.form) return { ok: false, errors }
 
-  const session = { user: String(input.user).trim() }
+  const account = findAccount(String(input.user).trim(), String(input.password ?? ''))
+  const session = { user: account.user }
   try {
     storage?.setItem(SESSION_KEY, JSON.stringify(session))
   } catch {

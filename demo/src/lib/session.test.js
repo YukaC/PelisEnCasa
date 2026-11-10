@@ -4,6 +4,7 @@ import assert from 'node:assert/strict'
 import { STORAGE_PREFIX } from './comments.js'
 import {
   DEMO_ACCOUNT,
+  DEMO_ACCOUNTS,
   SESSION_KEY,
   validateLogin,
   readSession,
@@ -34,9 +35,9 @@ test('validateLogin pide usuario y contraseña', () => {
   })
 })
 
-test('validateLogin rechaza credenciales que no son las de la cuenta de ejemplo', () => {
+test('validateLogin rechaza credenciales que no son las de ninguna de las dos cuentas', () => {
   assert.deepEqual(validateLogin({ user: DEMO_ACCOUNT.user, password: 'otra' }), {
-    form: 'Usuario o contraseña incorrectos. Usá la cuenta de ejemplo.',
+    form: 'Usuario o contraseña incorrectos. Usá una de las cuentas de ejemplo.',
   })
   assert.deepEqual(validateLogin({ user: ` ${DEMO_ACCOUNT.user} `, password: DEMO_ACCOUNT.password }), {})
 })
@@ -46,7 +47,7 @@ test('signIn con credenciales inválidas no abre sesión ni toca el storage', ()
   const result = signIn(storage, { user: 'alguien', password: 'mal' })
 
   assert.equal(result.ok, false)
-  assert.equal(result.errors.form, 'Usuario o contraseña incorrectos. Usá la cuenta de ejemplo.')
+  assert.equal(result.errors.form, 'Usuario o contraseña incorrectos. Usá una de las cuentas de ejemplo.')
   assert.deepEqual(storage.dump(), {})
   assert.equal(readSession(storage), null)
   assert.equal(getSession(), null)
@@ -95,4 +96,31 @@ test('sin storage disponible la sesión funciona en memoria', () => {
   assert.deepEqual(getSession(), { user: DEMO_ACCOUNT.user })
   signOut(null)
   assert.equal(getSession(), null)
+})
+
+test('las dos cuentas del TP están en un solo lugar y se pueden recorrer', () => {
+  assert.deepEqual(DEMO_ACCOUNTS.map((account) => account.user), ['Yuka', 'Clainux'])
+})
+
+test('validateLogin acepta cada una de las dos cuentas del TP', () => {
+  for (const account of DEMO_ACCOUNTS) {
+    assert.deepEqual(validateLogin({ user: account.user, password: account.password }), {}, account.user)
+  }
+})
+
+test('validateLogin no acepta el usuario de una cuenta con la contraseña de la otra', () => {
+  const [first, second] = DEMO_ACCOUNTS
+  assert.deepEqual(validateLogin({ user: first.user, password: second.password }), {
+    form: 'Usuario o contraseña incorrectos. Usá una de las cuentas de ejemplo.',
+  })
+})
+
+test('signIn guarda el nombre de la cuenta con la que se entró', () => {
+  const storage = createStorage()
+  const account = DEMO_ACCOUNTS[1]
+  const result = signIn(storage, { user: account.user, password: account.password })
+
+  assert.equal(result.ok, true)
+  assert.deepEqual(result.session, { user: 'Clainux' })
+  assert.deepEqual(readSession(storage), { user: 'Clainux' })
 })
