@@ -229,8 +229,8 @@ export default function CatalogPage() {
         </motion.article>
       )}
 
-      <div className="grid gap-4 border-y border-line pt-6 pb-4 sm:grid-cols-3 wide:grid-cols-[minmax(0,2.2fr)_repeat(3,minmax(0,1fr))] wide:items-end">
-        <div className="flex min-w-0 flex-col gap-2 sm:col-span-full wide:col-auto">
+      <div className="grid gap-x-3 gap-y-4 border-y border-line pt-6 pb-4 sm:grid-cols-3 md:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] md:items-end">
+        <div className="flex min-w-0 flex-col gap-2 sm:col-span-full md:col-auto">
           <label className="field-label" htmlFor={searchId}>
             Buscar
           </label>
