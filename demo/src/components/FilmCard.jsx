@@ -35,7 +35,7 @@ export default function FilmCard({ film }) {
           </motion.div>
         </div>
 
-        <span className="absolute top-2 right-2 rounded-md bg-black/85 px-[0.4rem] py-[0.1rem] text-step-n1 font-semibold text-accent tabular-nums">
+        <span className="absolute top-2 right-2 rounded-md bg-black/90 px-[0.4rem] py-[0.1rem] text-step-n1 font-semibold text-accent tabular-nums">
           <span aria-hidden="true">★ </span>
           {formatScore(film.score)}
           <span className="sr-only"> de 10</span>

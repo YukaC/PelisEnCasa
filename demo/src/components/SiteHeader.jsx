@@ -55,7 +55,7 @@ export default function SiteHeader({ loginHref = '#/login' }) {
           </span>
           {!session && (
             <a
-              className="rounded-md border border-accent px-[0.8rem] py-[0.35rem] font-semibold tracking-[0.04em] no-underline hover:bg-accent hover:text-on-accent"
+              className="rounded-md border border-accent px-[0.8rem] py-[0.35rem] font-semibold tracking-[0.04em] no-underline hover:border-accent-solid hover:bg-accent-solid hover:text-on-accent"
               href={loginHref}
             >
               Iniciar sesión

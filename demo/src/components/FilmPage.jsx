@@ -78,7 +78,8 @@ function FilmDetail({ film }) {
           />
         </div>
 
-        <div className="flex flex-col gap-4">
+        {/* El margen negativo es para el poster: el texto arranca debajo del banner. */}
+        <div className="flex flex-col gap-4 wide:pt-12">
           <p className="kicker">{film.genres.join(' · ')}</p>
           <h1 className="text-step-4">{film.name}</h1>
 

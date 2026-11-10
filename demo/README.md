@@ -6,7 +6,13 @@ Catálogo y fichas de un sitio de reseñas de películas, rehecho como demo para
 entrevista. Es la versión estática del TP 2022 (páginas HTML + jQuery contra una API Flask): acá no
 hay backend ni base de datos, y el login es simulado.
 
-- **React 19 + Vite 7**, JavaScript plano (`.jsx`). Sin TypeScript, sin router, sin Tailwind.
+- **React 19 + Vite 7**, JavaScript plano (`.jsx`). Sin TypeScript, sin router.
+- **Tailwind CSS v4** (`@tailwindcss/vite`): los estilos son utilidades en el JSX. Los tokens (color,
+  tipografía, sombras) viven una sola vez en `src/styles/app.css`, dentro de `@theme`.
+- **Tema claro y oscuro**: el switch de la marquesina alterna entre la marquesina nocturna del TP
+  (negro y rojo) y un tema claro de papel cálido con el mismo rojo. La primera visita sigue al
+  sistema (`prefers-color-scheme`); después manda lo elegido, guardado en `localStorage`
+  (`pelis-demo:theme`). `index.html` aplica el tema antes del primer pintado.
 - **`motion`** (v14, import `motion/react`) para los springs de interacción y de scroll. Es la única
 dependencia de animación.
 - **Datos embebidos**: `flask/db.json` del TP, copiado a `src/data/db.json`. Las imágenes salen de
@@ -96,7 +102,7 @@ demo/
     │   ├── comments.js     # validación y persistencia en localStorage (puro + storage)
     │   ├── motion.js       # presets de spring, variants y helpers de movimiento (puro)
     │   └── format.js       # score y fecha legible en es-AR
-    └── styles/demo.css     # tokens en :root, mobile-first, un solo acento rojo
+    └── styles/app.css      # Tailwind + tokens en @theme, tema claro/oscuro, un solo acento rojo
 ```
 
 ## Marca
