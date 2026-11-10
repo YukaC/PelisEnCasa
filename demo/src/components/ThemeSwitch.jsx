@@ -3,7 +3,7 @@ import { SPRINGS } from '../lib/motion.js'
 import { useTheme } from '../lib/useTheme.js'
 
 /** Recorrido de la perilla dentro de la pista (px). */
-const KNOB_TRAVEL = 20
+const KNOB_TRAVEL = 24
 
 function MoonIcon() {
   return (
@@ -45,10 +45,10 @@ export default function ThemeSwitch() {
       aria-label="Tema oscuro"
       title={dark ? 'Pasar a tema claro' : 'Pasar a tema oscuro'}
       onClick={toggleTheme}
-      className="relative inline-flex h-6 w-11 flex-none cursor-pointer items-center rounded-full border border-line-strong bg-raised hover:border-accent"
+      className="relative inline-flex h-7 w-12 flex-none cursor-pointer items-center rounded-full border border-line-strong bg-raised hover:border-accent"
     >
       <motion.span
-        className="absolute left-0.5 grid size-4.5 place-items-center rounded-full bg-accent text-on-accent"
+        className="absolute left-0.5 grid size-5 place-items-center rounded-full bg-accent text-on-accent"
         initial={false}
         animate={{ x: dark ? KNOB_TRAVEL : 0 }}
         transition={reduced ? { duration: 0 } : SPRINGS.tap}
