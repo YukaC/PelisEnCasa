@@ -52,22 +52,18 @@ function getSnapshot() {
   return current
 }
 
-/** Elige un tema concreto y lo guarda. */
-function chooseTheme(theme) {
+function toggleTheme() {
+  const theme = nextTheme(getSnapshot())
   storeTheme(getStorage(), theme)
   setCurrent(theme)
-}
-
-function toggleTheme() {
-  chooseTheme(nextTheme(getSnapshot()))
 }
 
 /**
  * Tema claro/oscuro de la demo y el switch que lo alterna. Sigue al sistema hasta
  * que la persona elige; después manda lo guardado, también desde otra pestaña.
- * @returns {{ theme: 'dark' | 'light', toggleTheme: () => void, chooseTheme: (theme: 'dark' | 'light') => void }}
+ * @returns {{ theme: 'dark' | 'light', toggleTheme: () => void }}
  */
 export function useTheme() {
   const theme = useSyncExternalStore(subscribe, getSnapshot, () => 'dark')
-  return { theme, toggleTheme, chooseTheme }
+  return { theme, toggleTheme }
 }
