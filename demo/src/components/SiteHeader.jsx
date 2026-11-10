@@ -3,6 +3,10 @@ import { getStorage } from '../lib/comments.js'
 import { SPRINGS, scrollLift } from '../lib/motion.js'
 import { signOut } from '../lib/session.js'
 import { useSession } from '../lib/useSession.js'
+import ThemeSwitch from './ThemeSwitch.jsx'
+
+const NAV_LINK =
+  'border-b border-transparent font-semibold tracking-[0.04em] no-underline hover:border-accent'
 
 /**
  * Marquesina. El fondo y la elevación siguen al scroll con `useScroll` + `useSpring`:
@@ -19,33 +23,60 @@ export default function SiteHeader({ loginHref = '#/login' }) {
   const lift = useTransform(source, (value) => (reduced ? 0 : scrollLift(value - 24, 120)))
 
   return (
-    <header className="marquee">
-      <motion.span className="marquee__scrim" style={{ opacity: scrim }} aria-hidden="true" />
-      <motion.span className="marquee__lift" style={{ opacity: lift }} aria-hidden="true" />
+    <header className="marquee-lights sticky top-0 z-30 border-b border-line bg-surface">
+      <motion.span
+        className="pointer-events-none absolute inset-0 bg-bg"
+        style={{ opacity: scrim }}
+        aria-hidden="true"
+      />
+      <motion.span
+        className="pointer-events-none absolute inset-0 shadow-lift"
+        style={{ opacity: lift }}
+        aria-hidden="true"
+      />
 
-      <div className="marquee__inner">
-        <a className="brand" href="#/" aria-label="Pelis en Casa, ir a la cartelera">
-          <img className="brand__logo" src="/logo.png" alt="" width="100" height="100" />
-          <span className="brand__tag">Cartelera de barrio</span>
+      <div className="relative z-1 mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-3 px-4 pt-6 pb-4 sm:px-8">
+        <a
+          className="inline-flex items-center gap-3 no-underline"
+          href="#/"
+          aria-label="Pelis en Casa, ir a la cartelera"
+        >
+          {/* El cintillo rojo del TP original: es el logo, así que no lo repite el texto. */}
+          <img className="h-auto w-16 flex-none" src="/logo.png" alt="" width="100" height="100" />
+          <span className="text-label tracking-[0.18em] text-fg-mute uppercase">Cartelera de barrio</span>
         </a>
 
-        <nav className="marquee__nav" aria-label="Navegación principal">
-          <a href="#/">Cartelera</a>
-          <span className="marquee__badge">demo</span>
+        <nav className="flex flex-wrap items-center gap-3 text-step-n1" aria-label="Navegación principal">
+          <a className={NAV_LINK} href="#/">
+            Cartelera
+          </a>
+          <span className="rounded-full border border-line-strong px-2 py-[0.15rem] text-label tracking-[0.12em] text-fg-mute uppercase">
+            demo
+          </span>
           {!session && (
-            <a className="marquee__cta" href={loginHref}>
+            <a
+              className="rounded-md border border-accent px-[0.8rem] py-[0.35rem] font-semibold tracking-[0.04em] no-underline hover:bg-accent hover:text-on-accent"
+              href={loginHref}
+            >
               Iniciar sesión
             </a>
           )}
           {session && (
             <>
-              <a href="#/subir">Subir película</a>
-              <span className="marquee__user">{session.user}</span>
-              <button className="marquee__signout" type="button" onClick={() => signOut(getStorage())}>
+              <a className={NAV_LINK} href="#/subir">
+                Subir película
+              </a>
+              <span className="font-semibold text-fg-dim">{session.user}</span>
+              <button
+                className={`${NAV_LINK} cursor-pointer`}
+                type="button"
+                onClick={() => signOut(getStorage())}
+              >
                 Cerrar sesión
               </button>
             </>
           )}
+          <ThemeSwitch />
         </nav>
       </div>
     </header>

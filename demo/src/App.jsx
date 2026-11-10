@@ -18,7 +18,6 @@ function RouteFrame({ children, ...motionProps }) {
 
   return (
     <motion.div
-      className="route"
       style={{ pointerEvents: isPresent ? undefined : 'none' }}
       {...motionProps}
     >
@@ -38,14 +37,21 @@ export default function App() {
   }, [routeKey])
 
   return (
-    <div className="app">
-      <a className="skip-link" href="#contenido">
+    <div className="flex min-h-screen flex-col">
+      <a
+        className="absolute top-2 left-2 z-40 -translate-y-[200%] rounded-md bg-accent px-4 py-2 font-semibold text-on-accent no-underline focus:translate-y-0"
+        href="#contenido"
+      >
         Saltar al contenido
       </a>
 
       <SiteHeader loginHref={loginHref} />
 
-      <main id="contenido" className="page" tabIndex={-1}>
+      <main
+        id="contenido"
+        className="mx-auto w-full max-w-page flex-1 px-4 pt-8 pb-18 outline-none sm:px-8"
+        tabIndex={-1}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <RouteFrame key={routeKey} {...pageMotion(reduced)}>
             {route.name === 'catalog' && <CatalogPage />}

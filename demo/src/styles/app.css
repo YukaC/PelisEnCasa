@@ -43,6 +43,8 @@
   --text-step-4: clamp(2.15rem, 1.55rem + 3vw, 3.5rem);
   --text-label: 0.6875rem;
 
+  --breakpoint-wide: 60rem;
+
   --container-page: 72rem;
   --container-measure: 64ch;
 
@@ -103,4 +105,88 @@
   --radius-lg: 12px;
   --measure: 64ch;
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+}
+
+@layer base {
+  body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    background-image: radial-gradient(90rem 40rem at 50% -12rem, var(--color-glow) 0%, transparent 70%);
+    color: var(--color-fg);
+    font-family: var(--font-ui);
+    font-size: var(--text-step-0);
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  a {
+    text-decoration-line: underline;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Etiqueta roja en mayúsculas que encabeza cada bloque. */
+@utility kicker {
+  font-family: var(--font-ui);
+  font-size: var(--text-step-n1);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* Las dos hileras de luces de la marquesina: pseudo-elementos con máscara. */
+@utility marquee-lights {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    height: 0.625rem;
+    background-image: radial-gradient(circle, var(--color-accent) 0 1.6px, transparent 2.2px);
+    background-size: 1.375rem 0.625rem;
+    background-position: center;
+    opacity: 0.45;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    pointer-events: none;
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
 }
