@@ -72,7 +72,11 @@ export default function SiteHeader({ loginHref = '#/login' }) {
 
           {session && (
             <a className={navLink(onUpload)} href="#/subir" aria-current={onUpload ? 'page' : undefined}>
-              Subir<span className="hidden sm:inline"> película</span>
+              {/* El espacio entre nodos se pierde en un contenedor flex: lo da el gap. */}
+              <span className="inline-flex items-center gap-1">
+                Subir
+                <span className="hidden sm:inline">película</span>
+              </span>
             </a>
           )}
 
