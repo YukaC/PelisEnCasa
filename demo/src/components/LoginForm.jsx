@@ -55,13 +55,18 @@ export default function LoginForm({ onSuccess }) {
   }
 
   return (
-    <motion.form className="form" onSubmit={handleSubmit} noValidate ref={scope}>
-      <p className="form__hint">
+    <motion.form
+      className="mb-8 flex max-w-[34rem] flex-col gap-3"
+      onSubmit={handleSubmit}
+      noValidate
+      ref={scope}
+    >
+      <p className="-mt-2 text-step-n1 text-fg-mute">
         Ingreso simulado, sin backend: vienen las dos cuentas del TP ({DEMO_ACCOUNT.user}/{DEMO_ACCOUNT.password} y{' '}
         {DEMO_ACCOUNTS[1].user}/{DEMO_ACCOUNTS[1].password}). Nada sale de este navegador.
       </p>
 
-      <div className="form__row">
+      <div className="flex min-w-0 flex-col gap-2">
         <label className="field-label" htmlFor={userId}>
           Usuario
         </label>
@@ -82,14 +87,18 @@ export default function LoginForm({ onSuccess }) {
         />
         <AnimatePresence initial={false}>
           {errors.user && (
-            <motion.p className="form__error" id={userErrorId} {...errorMotion}>
+            <motion.p
+              className="text-step-n1 font-semibold text-danger"
+              id={userErrorId}
+              {...errorMotion}
+            >
               {errors.user}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="form__row">
+      <div className="flex min-w-0 flex-col gap-2">
         <label className="field-label" htmlFor={passwordId}>
           Contraseña
         </label>
@@ -110,18 +119,22 @@ export default function LoginForm({ onSuccess }) {
         />
         <AnimatePresence initial={false}>
           {errors.password && (
-            <motion.p className="form__error" id={passwordErrorId} {...errorMotion}>
+            <motion.p
+              className="text-step-n1 font-semibold text-danger"
+              id={passwordErrorId}
+              {...errorMotion}
+            >
               {errors.password}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
 
-      <motion.button className="btn" type="submit" {...pressMotion(reduced)}>
+      <motion.button className="btn self-start mt-1" type="submit" {...pressMotion(reduced)}>
         Iniciar sesión
       </motion.button>
 
-      <div className="form__status form__status--error" role="alert">
+      <div className="min-h-[1.5em] text-step-n1 font-semibold text-danger" role="alert">
         <AnimatePresence initial={false}>
           {errors.form && (
             <motion.span id={formErrorId} {...errorMotion}>

@@ -29,6 +29,12 @@ const IMAGE_FIELDS = [
   { kind: 'banner', label: 'Banner de la ficha (opcional)' },
 ]
 
+/** Proporción de cada vista previa: el póster es 2:3 y el banner 16:9. */
+const PREVIEW_SHAPE = {
+  poster: 'aspect-2/3 w-22',
+  banner: 'aspect-video w-44',
+}
+
 function toFormValues(film) {
   return {
     nombre: film.nombre,
@@ -49,7 +55,7 @@ function Field({ label, error, reduced, children }) {
   const errorId = useId()
 
   return (
-    <div className="form__row">
+    <div className="flex min-w-0 flex-col gap-2">
       <label className="field-label" htmlFor={id}>
         {label}
       </label>
@@ -60,7 +66,11 @@ function Field({ label, error, reduced, children }) {
       })}
       <AnimatePresence initial={false}>
         {error && (
-          <motion.p className="form__error" id={errorId} {...fieldErrorMotion(reduced)}>
+          <motion.p
+            className="text-step-n1 font-semibold text-danger"
+            id={errorId}
+            {...fieldErrorMotion(reduced)}
+          >
             {error}
           </motion.p>
         )}
@@ -82,8 +92,9 @@ function ImageField({ label, kind, picked, stored, error, busy, reduced, onPick,
   return (
     <Field label={label} error={error} reduced={reduced}>
       {(a11y) => (
-        <div className="image-field">
+        <div className="flex flex-col gap-3">
           <input
+            className="w-full cursor-pointer rounded-md border border-dashed border-line-strong bg-surface px-[0.7rem] py-[0.55rem] text-step-n1 text-fg-dim hover:border-accent focus-visible:border-accent focus-visible:shadow-focus focus-visible:outline-none"
             type="file"
             accept={ACCEPTED_TYPES.join(',')}
             disabled={busy}
@@ -92,12 +103,20 @@ function ImageField({ label, kind, picked, stored, error, busy, reduced, onPick,
           />
 
           {preview && (
-            <figure className={`image-field__preview image-field__preview--${kind}`}>
-              <img src={preview} alt={`Vista previa de ${kind === 'poster' ? 'el póster' : 'el banner'}`} />
-              <figcaption className="image-field__meta">
+            <figure className="m-0 flex items-end gap-3">
+              <img
+                className={`block rounded-md border border-line-strong object-cover ${PREVIEW_SHAPE[kind]}`}
+                src={preview}
+                alt={`Vista previa de ${kind === 'poster' ? 'el póster' : 'el banner'}`}
+              />
+              <figcaption className="flex flex-col gap-1 text-step-n1 text-fg-mute">
                 <span>{meta}</span>
                 {canClear && (
-                  <button type="button" className="image-field__clear" onClick={onClear}>
+                  <button
+                    type="button"
+                    className="cursor-pointer border-0 bg-transparent p-0 text-left text-accent-text underline [font:inherit] focus-visible:shadow-focus focus-visible:outline-none"
+                    onClick={onClear}
+                  >
                     Volver a la imagen por defecto
                   </button>
                 )}
@@ -199,16 +218,25 @@ function FilmForm({ film, rawFilms, session }) {
   }
 
   return (
-    <section className="editor" aria-labelledby="editor-title">
-      <a className="backlink" href={backHref}>
+    <section aria-labelledby="editor-title">
+      <a
+        className="mb-4 inline-block text-step-n1 font-semibold tracking-[0.04em] text-fg-dim no-underline hover:text-accent-text"
+        href={backHref}
+      >
         <span aria-hidden="true">← </span>
         {film ? 'Volver a la ficha' : 'Volver a la cartelera'}
       </a>
 
-      <h1 id="editor-title">{film ? 'Editar película' : 'Subir película'}</h1>
+      <h1 id="editor-title" className="mb-4 text-step-3">
+        {film ? 'Editar película' : 'Subir película'}
+      </h1>
 
-      <form className="form form--film" onSubmit={handleSubmit} noValidate>
-        <p className="form__hint">
+      <form
+        className="mb-8 flex max-w-[40rem] flex-col gap-3"
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        <p className="-mt-2 text-step-n1 text-fg-mute">
           Se guarda en este navegador, sin servidor. La imagen que elijas se achica antes de guardarse y queda
           con la película.
         </p>
@@ -221,7 +249,7 @@ function FilmForm({ film, rawFilms, session }) {
           {(a11y) => <textarea rows={4} maxLength={900} {...a11y} {...bind('sinopsis')} />}
         </Field>
 
-        <div className="form__pair">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Primer género" error={errors.genero} reduced={reduced}>
             {(a11y) => (
               <select {...a11y} {...bind('genero')}>
@@ -249,7 +277,7 @@ function FilmForm({ film, rawFilms, session }) {
           </Field>
         </div>
 
-        <div className="form__pair">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Primer director" error={errors.director} reduced={reduced}>
             {(a11y) => (
               <select {...a11y} {...bind('director')}>
@@ -277,7 +305,7 @@ function FilmForm({ film, rawFilms, session }) {
           </Field>
         </div>
 
-        <div className="form__pair">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Duración" error={errors.duracion} reduced={reduced}>
             {(a11y) => (
               <input type="text" placeholder="2h 11m" maxLength={20} {...a11y} {...bind('duracion')} />
@@ -312,11 +340,16 @@ function FilmForm({ film, rawFilms, session }) {
           />
         ))}
 
-        <motion.button className="btn" type="submit" disabled={busy} {...pressMotion(reduced)}>
+        <motion.button
+          className="btn self-start mt-1"
+          type="submit"
+          disabled={busy}
+          {...pressMotion(reduced)}
+        >
           {film ? 'Guardar cambios' : 'Subir película'}
         </motion.button>
 
-        <div className="form__status form__status--error" role="alert">
+        <div className="min-h-[1.5em] text-step-n1 font-semibold text-danger" role="alert">
           {formError}
         </div>
       </form>

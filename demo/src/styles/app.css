@@ -80,39 +80,6 @@
   --color-shade: rgb(70 48 24 / 0.55);
 }
 
-/* Puente mientras dura la migración: demo.css todavía lee los nombres viejos. */
-:root {
-  --ink-950: var(--color-bg);
-  --ink-900: var(--color-surface);
-  --ink-800: var(--color-raised);
-  --line: var(--color-line);
-  --line-strong: var(--color-line-strong);
-  --paper: var(--color-fg);
-  --paper-dim: var(--color-fg-dim);
-  --paper-mute: var(--color-fg-mute);
-  --accent: var(--color-accent);
-  --accent-deep: var(--color-accent-deep);
-  --danger: var(--color-danger);
-  --step--1: var(--text-step-n1);
-  --step-0: var(--text-step-0);
-  --step-1: var(--text-step-1);
-  --step-2: var(--text-step-2);
-  --step-3: var(--text-step-3);
-  --step-4: var(--text-step-4);
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4.5rem;
-  --radius: 6px;
-  --radius-lg: 12px;
-  --measure: 64ch;
-  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
-}
-
 @layer base {
   body {
     min-height: 100vh;
@@ -244,6 +211,22 @@
 
   &::after {
     bottom: 0;
+  }
+}
+
+/* Velo del banner de la ficha: pseudo-elemento que funde la foto con el fondo.
+   Oscuro: el negro de la sala. Claro: el mismo papel del fondo, translúcido. */
+@utility banner-veil {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      var(--color-bg) 0%,
+      color-mix(in srgb, var(--color-bg) 25%, transparent) 55%,
+      transparent 100%
+    );
   }
 }
 

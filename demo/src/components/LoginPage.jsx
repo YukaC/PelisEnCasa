@@ -10,12 +10,14 @@ export default function LoginPage({ next = '/', notice, stay = false }) {
   const session = useSession()
 
   return (
-    <section className="auth" aria-labelledby="auth-title">
-      <h1 id="auth-title">Iniciar sesión</h1>
+    <section className="max-w-[34rem]" aria-labelledby="auth-title">
+      <h1 id="auth-title" className="mb-4 text-step-3">
+        Iniciar sesión
+      </h1>
 
       {session ? (
         <>
-          <p className="auth__notice">
+          <p className="mb-4 text-fg-dim">
             Ya iniciaste sesión como <strong>{session.user}</strong>.
           </p>
           <a className="btn" href="#/">
@@ -24,7 +26,7 @@ export default function LoginPage({ next = '/', notice, stay = false }) {
         </>
       ) : (
         <>
-          <p className="auth__notice">
+          <p className="mb-4 text-fg-dim">
             {notice ??
               'Con sesión iniciada podés ver el catálogo completo, comentar, y subir, editar o borrar películas.'}
           </p>

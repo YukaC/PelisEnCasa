@@ -66,17 +66,27 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="footer">
-        <div className="footer__inner">
-          <img className="footer__logo" src="/logo.png" alt="" width="100" height="100" />
-          <p>
+      <footer className="border-t border-line bg-surface">
+        <div className="mx-auto flex max-w-page items-center gap-3 px-4 py-6">
+          <img className="h-auto w-9 flex-none opacity-75" src="/logo.png" alt="" width="100" height="100" />
+          <p className="text-step-n1 text-fg-mute sm:px-8">
             Pelis en Casa · demo estática del TP de 2022, que era Flask con un JSON. Reescrita con React y
             Vite, sin backend ni base de datos: el login es simulado.
           </p>
-          <nav className="footer__nav" aria-label="Enlaces del pie">
-            <a href="#/">Cartelera</a>
-            <a href={loginHref}>Ingresar</a>
-            <span className="footer__license">Código bajo licencia MIT</span>
+          <nav className="ml-auto flex flex-wrap items-center gap-4 text-step-n1" aria-label="Enlaces del pie">
+            <a
+              className="border-b border-line-strong text-fg-dim no-underline hover:border-accent hover:text-fg"
+              href="#/"
+            >
+              Cartelera
+            </a>
+            <a
+              className="border-b border-line-strong text-fg-dim no-underline hover:border-accent hover:text-fg"
+              href={loginHref}
+            >
+              Ingresar
+            </a>
+            <span className="text-fg-mute">Código bajo licencia MIT</span>
           </nav>
         </div>
       </footer>
