@@ -6,3 +6,6 @@
 # Python bytecode (flask/ legacy app)
 __pycache__/
 *.pyc
+
+# Local ODD task notes (not shipped with the demo)
+odd/
