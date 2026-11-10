@@ -30,6 +30,17 @@ export function nextFeaturedIndex(index, length) {
 }
 
 /**
+ * Posición anterior de la rotación: del principio salta al final.
+ * @param {number} index
+ * @param {number} length
+ * @returns {number}
+ */
+export function previousFeaturedIndex(index, length) {
+  if (!(length > 1)) return 0
+  return ((index % length) - 1 + length) % length
+}
+
+/**
  * Primer tramo de la sinopsis: la portada no repite la ficha entera.
  * @param {string} [text]
  * @returns {string}

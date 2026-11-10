@@ -8,6 +8,7 @@ import {
   featuredOrder,
   firstSentence,
   nextFeaturedIndex,
+  previousFeaturedIndex,
 } from '../lib/featured.js'
 import { imageUrl } from '../lib/image.js'
 import { useCatalog } from '../lib/useCatalog.js'
@@ -24,6 +25,28 @@ const SORT_OPTIONS = [
 const EMPTY_FILTERS = { query: '', genre: '', director: '' }
 
 /** Películas por página: dos filas de la grilla en escritorio, una en celular. */
+/** Flecha de la destacada: redonda, sobre el banner, centrada en su alto. */
+const HERO_ARROW =
+  'absolute top-1/2 -mt-5.5 grid size-11 cursor-pointer place-items-center rounded-full border border-line-strong bg-surface/85 text-fg hover:border-accent hover:bg-surface'
+
+function ArrowIcon({ direction }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={direction === 'left' ? 'M10 3 5 8l5 5' : 'm6 3 5 5-5 5'} />
+    </svg>
+  )
+}
+
 const PAGE_SIZE = 6
 
 /**
@@ -127,21 +150,48 @@ export default function CatalogPage() {
       {featured && (
         <motion.article
           className="relative mb-8 overflow-hidden rounded-xl border border-line bg-surface"
-          onMouseEnter={() => setHeroEngaged(true)}
-          onMouseLeave={() => setHeroEngaged(false)}
-          onFocus={() => setHeroEngaged(true)}
+          // Sólo mouse y foco de teclado frenan la rotación: un toque no la deja trabada.
+          onPointerEnter={(event) => event.pointerType === 'mouse' && setHeroEngaged(true)}
+          onPointerLeave={() => setHeroEngaged(false)}
+          onFocus={(event) => event.target.matches(':focus-visible') && setHeroEngaged(true)}
           onBlur={() => setHeroEngaged(false)}
           {...gridListMotion(reduced)}
         >
           {/* La clave por película hace que cada destacada entre con el mismo fundido. */}
-          <motion.div key={featured.id} {...gridListMotion(reduced)}>
-            <SafeImage
-              className="block h-40 w-full object-cover opacity-85 sm:h-56 dark:opacity-50"
-              src={imageUrl(featured, 'banner')}
-              alt=""
-              aria-hidden="true"
-            />
-          </motion.div>
+          <div className="relative">
+            <motion.div key={featured.id} {...gridListMotion(reduced)}>
+              <SafeImage
+                className="block h-40 w-full object-cover opacity-85 sm:h-56 dark:opacity-50"
+                src={imageUrl(featured, 'banner')}
+                alt=""
+                aria-hidden="true"
+              />
+            </motion.div>
+            {rotates && (
+              <>
+                <motion.button
+                  className={`${HERO_ARROW} left-3`}
+                  type="button"
+                  aria-label="Película destacada anterior"
+                  onClick={() =>
+                    setFeaturedIndex((current) => previousFeaturedIndex(current, rotation.length))
+                  }
+                  {...pressMotion(reduced)}
+                >
+                  <ArrowIcon direction="left" />
+                </motion.button>
+                <motion.button
+                  className={`${HERO_ARROW} right-3`}
+                  type="button"
+                  aria-label="Película destacada siguiente"
+                  onClick={() => setFeaturedIndex((current) => nextFeaturedIndex(current, rotation.length))}
+                  {...pressMotion(reduced)}
+                >
+                  <ArrowIcon direction="right" />
+                </motion.button>
+              </>
+            )}
+          </div>
           <div className="flex flex-col gap-2 p-6">
             <p className="kicker">Destacada de la noche</p>
             <h2 className="line-clamp-2 text-step-3 leading-[1.1]">{featured.name}</h2>
@@ -157,16 +207,6 @@ export default function CatalogPage() {
               <a className="btn" href={`#/film/${featured.id}`}>
                 Ver la ficha
               </a>
-              {rotates && (
-                <motion.button
-                  className="btn-ghost"
-                  type="button"
-                  onClick={() => setFeaturedIndex((current) => nextFeaturedIndex(current, rotation.length))}
-                  {...pressMotion(reduced)}
-                >
-                  Siguiente
-                </motion.button>
-              )}
               {rotates && !reduced && (
                 <motion.button
                   className="btn-ghost"

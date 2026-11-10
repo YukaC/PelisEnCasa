@@ -15,6 +15,7 @@ const LIB_SYMBOLS = [
   'prepareImage',
   'featuredOrder',
   'nextFeaturedIndex',
+  'previousFeaturedIndex',
   'FEATURED_ROTATION_MS',
   'firstSentence',
   'dataUrlBytes',

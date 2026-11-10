@@ -1,7 +1,12 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import { firstSentence, featuredOrder, nextFeaturedIndex } from './featured.js'
+import {
+  firstSentence,
+  featuredOrder,
+  nextFeaturedIndex,
+  previousFeaturedIndex,
+} from './featured.js'
 
 const FILMS = [{ id: 1, name: 'Uno' }, { id: 2, name: 'Dos' }, { id: 3, name: 'Tres' }]
 
@@ -32,6 +37,18 @@ test('nextFeaturedIndex se queda en 0 con una sola película o ninguna', () => {
   assert.equal(nextFeaturedIndex(0, 1), 0)
   assert.equal(nextFeaturedIndex(4, 0), 0)
   assert.equal(nextFeaturedIndex(7, 3), 2)
+})
+
+test('previousFeaturedIndex retrocede y del principio salta al final', () => {
+  assert.equal(previousFeaturedIndex(2, 3), 1)
+  assert.equal(previousFeaturedIndex(1, 3), 0)
+  assert.equal(previousFeaturedIndex(0, 3), 2)
+})
+
+test('previousFeaturedIndex se queda en 0 con una sola película o ninguna', () => {
+  assert.equal(previousFeaturedIndex(0, 1), 0)
+  assert.equal(previousFeaturedIndex(4, 0), 0)
+  assert.equal(previousFeaturedIndex(7, 3), 0)
 })
 
 test('firstSentence corta la sinopsis en la primera oración', () => {
