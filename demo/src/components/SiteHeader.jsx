@@ -60,8 +60,9 @@ export default function SiteHeader({ loginHref = '#/login' }) {
         </a>
 
         <div className="relative ml-auto flex flex-wrap items-center justify-end gap-0.5 sm:flex-nowrap sm:gap-1.5">
-          {/* Etiqueta de estado, no un botón: sin borde, sin fondo, bien chica. */}
-          <span className="hidden flex-none pr-1 text-[0.625rem] font-semibold tracking-[0.2em] text-fg-mute uppercase select-none lg:inline-flex">
+          {/* Etiqueta de estado: pastilla rellena y chica, sin borde, para que lea como
+              etiqueta y no como botón. */}
+          <span className="hidden flex-none items-center rounded-full bg-raised px-1.5 py-0.5 text-[0.625rem] leading-tight font-semibold tracking-[0.14em] text-fg-dim uppercase select-none lg:inline-flex">
             demo
           </span>
 
