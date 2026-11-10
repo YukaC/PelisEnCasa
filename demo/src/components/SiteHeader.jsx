@@ -60,6 +60,11 @@ export default function SiteHeader({ loginHref = '#/login' }) {
         </a>
 
         <div className="relative ml-auto flex flex-wrap items-center justify-end gap-0.5 sm:flex-nowrap sm:gap-1.5">
+          {/* Etiqueta de estado, no un botón: sin borde, sin fondo, bien chica. */}
+          <span className="hidden flex-none pr-1 text-[0.625rem] font-semibold tracking-[0.2em] text-fg-mute uppercase select-none lg:inline-flex">
+            demo
+          </span>
+
           <a className={navLink(onFilms)} href="#/" aria-current={onFilms ? 'page' : undefined}>
             Películas
           </a>
@@ -69,10 +74,6 @@ export default function SiteHeader({ loginHref = '#/login' }) {
               Subir<span className="hidden sm:inline"> película</span>
             </a>
           )}
-
-          <span className="hidden rounded-full border border-line px-2 py-0.5 text-label tracking-[0.12em] text-fg-mute uppercase lg:inline-flex">
-            demo
-          </span>
 
           {!session ? (
             <a
