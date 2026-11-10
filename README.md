@@ -2,6 +2,8 @@
 
 Academic final project: a small movie catalog (“Pelis en Casa”) with static HTML/JS pages and a Flask JSON API backed by `flask/db.json`.
 
+**Demo en vivo:** <https://peliscasa.vercel.app> (estático, sin backend; el código está en `demo/`).
+
 **Authors:** Agustin Esteban Cañete Ciucani & Grecco (see repository name `PelisEnCasa`).
 
 **Upstream:** [YukaC/PelisEnCasa](https://github.com/YukaC/PelisEnCasa)
