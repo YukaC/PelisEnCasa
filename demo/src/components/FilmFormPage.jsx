@@ -5,6 +5,8 @@ import NotFoundPage from './NotFoundPage.jsx'
 import { directors, genres } from '../data/catalog.js'
 import { getStorage } from '../lib/comments.js'
 import { addFilm, editFilm } from '../lib/films.js'
+import { ACCEPTED_TYPES, dataUrlBytes, imageUrl } from '../lib/image.js'
+import { prepareImage } from '../lib/imageFile.js'
 import { fieldErrorMotion, pressMotion } from '../lib/motion.js'
 import { navigate } from '../lib/route.js'
 import { commitFilms, useCatalog } from '../lib/useCatalog.js'
@@ -21,6 +23,11 @@ const EMPTY = {
   year: '',
   score: '',
 }
+
+const IMAGE_FIELDS = [
+  { kind: 'poster', label: 'Póster (opcional)' },
+  { kind: 'banner', label: 'Banner de la ficha (opcional)' },
+]
 
 function toFormValues(film) {
   return {
@@ -63,6 +70,47 @@ function Field({ label, error, reduced, children }) {
 }
 
 /**
+ * Selector de imagen con vista previa. `picked` es `undefined` cuando no se tocó nada,
+ * un `data:` URL cuando se eligió un archivo y `null` cuando se pidió volver a la estática.
+ */
+function ImageField({ label, kind, picked, stored, error, busy, reduced, onPick, onClear }) {
+  const preview = typeof picked === 'string' ? picked : picked === null ? null : stored
+  const canClear = typeof picked === 'string' || (picked === undefined && Boolean(stored))
+  const meta =
+    typeof picked === 'string' ? `${Math.max(1, Math.round(dataUrlBytes(picked) / 1024))} KB` : 'Guardada en este navegador'
+
+  return (
+    <Field label={label} error={error} reduced={reduced}>
+      {(a11y) => (
+        <div className="image-field">
+          <input
+            type="file"
+            accept={ACCEPTED_TYPES.join(',')}
+            disabled={busy}
+            onChange={(event) => onPick(event.target.files?.[0] ?? null)}
+            {...a11y}
+          />
+
+          {preview && (
+            <figure className={`image-field__preview image-field__preview--${kind}`}>
+              <img src={preview} alt={`Vista previa de ${kind === 'poster' ? 'el póster' : 'el banner'}`} />
+              <figcaption className="image-field__meta">
+                <span>{meta}</span>
+                {canClear && (
+                  <button type="button" className="image-field__clear" onClick={onClear}>
+                    Volver a la imagen por defecto
+                  </button>
+                )}
+              </figcaption>
+            </figure>
+          )}
+        </div>
+      )}
+    </Field>
+  )
+}
+
+/**
  * Subir o editar una película: los mismos campos que el formulario del TP.
  * Sin sesión muestra el ingreso, igual que la API devolvía 401.
  */
@@ -96,6 +144,9 @@ function FilmForm({ film, rawFilms, session }) {
   const [values, setValues] = useState(() => (film ? toFormValues(film) : EMPTY))
   const [errors, setErrors] = useState({})
   const [formError, setFormError] = useState('')
+  const [images, setImages] = useState({})
+  const [imageErrors, setImageErrors] = useState({})
+  const [busy, setBusy] = useState(false)
 
   const backHref = film ? `#/film/${film.id}` : '#/'
 
@@ -112,9 +163,10 @@ function FilmForm({ film, rawFilms, session }) {
   function handleSubmit(event) {
     event.preventDefault()
     const storage = getStorage()
+    const input = { ...values, poster: images.poster, banner: images.banner }
     const result = film
-      ? editFilm(storage, rawFilms, session, film.id, values)
-      : addFilm(storage, rawFilms, session, values)
+      ? editFilm(storage, rawFilms, session, film.id, input)
+      : addFilm(storage, rawFilms, session, input)
 
     if (!result.ok) {
       setErrors(result.errors ?? {})
@@ -124,6 +176,26 @@ function FilmForm({ film, rawFilms, session }) {
 
     commitFilms(result.films)
     navigate(`/film/${result.film.id}`)
+  }
+
+  async function handlePick(kind, file) {
+    if (!file) return
+    setBusy(true)
+    setImageErrors((current) => ({ ...current, [kind]: undefined }))
+    setFormError('')
+
+    const result = await prepareImage(file, kind)
+    setBusy(false)
+    if (!result.ok) {
+      setImageErrors((current) => ({ ...current, [kind]: result.error }))
+      return
+    }
+    setImages((current) => ({ ...current, [kind]: result.dataUrl }))
+  }
+
+  function handleClear(kind) {
+    setImageErrors((current) => ({ ...current, [kind]: undefined }))
+    setImages((current) => ({ ...current, [kind]: null }))
   }
 
   return (
@@ -137,7 +209,8 @@ function FilmForm({ film, rawFilms, session }) {
 
       <form className="form form--film" onSubmit={handleSubmit} noValidate>
         <p className="form__hint">
-          Se guarda en este navegador. La portada usa la imagen por defecto, como en el TP.
+          Se guarda en este navegador, sin servidor. La imagen que elijas se achica antes de guardarse y queda
+          con la película.
         </p>
 
         <Field label="Nombre de la película" error={errors.nombre} reduced={reduced}>
@@ -224,7 +297,22 @@ function FilmForm({ film, rawFilms, session }) {
           )}
         </Field>
 
-        <motion.button className="button" type="submit" {...pressMotion(reduced)}>
+        {IMAGE_FIELDS.map(({ kind, label }) => (
+          <ImageField
+            key={kind}
+            kind={kind}
+            label={label}
+            picked={images[kind]}
+            stored={film ? imageUrl(film, kind) : null}
+            error={imageErrors[kind]}
+            busy={busy}
+            reduced={reduced}
+            onPick={(file) => handlePick(kind, file)}
+            onClear={() => handleClear(kind)}
+          />
+        ))}
+
+        <motion.button className="button" type="submit" disabled={busy} {...pressMotion(reduced)}>
           {film ? 'Guardar cambios' : 'Subir película'}
         </motion.button>
 

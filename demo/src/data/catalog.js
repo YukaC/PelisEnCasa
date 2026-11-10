@@ -26,6 +26,8 @@ export function resolveFilm(film) {
     duration: film.duracion,
     score: Number.parseFloat(film.score),
     synopsis: film.sinopsis,
+    poster: film.poster,
+    banner: film.banner,
     genres: [
       resolveName(genreNames, film.genero),
       resolveName(genreNames, film.genero2),
@@ -49,13 +51,3 @@ export const seedCommentsByFilm = db.comentarios.reduce((grouped, comment) => {
   grouped[filmId] = [...(grouped[filmId] ?? []), normalized]
   return grouped
 }, {})
-
-export function posterUrl(filmId) {
-  return `/films/${filmId}.jpg`
-}
-
-export function bannerUrl(filmId) {
-  return `/films/${filmId}-banner.jpg`
-}
-
-export const fallbackImageUrl = '/films/fallback.jpg'

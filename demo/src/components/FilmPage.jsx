@@ -4,7 +4,8 @@ import CommentForm from './CommentForm.jsx'
 import NotFoundPage from './NotFoundPage.jsx'
 import SafeImage from './SafeImage.jsx'
 import ScoreMeter from './ScoreMeter.jsx'
-import { bannerUrl, posterUrl, seedCommentsByFilm } from '../data/catalog.js'
+import { seedCommentsByFilm } from '../data/catalog.js'
+import { imageUrl } from '../lib/image.js'
 import { commentsForFilm, readStoredComments, getStorage } from '../lib/comments.js'
 import { deleteFilm } from '../lib/films.js'
 import { commentItemMotion, pressMotion } from '../lib/motion.js'
@@ -55,13 +56,13 @@ function FilmDetail({ film }) {
       </a>
 
       <div className="film__banner">
-        <SafeImage src={bannerUrl(film.id)} alt="" aria-hidden="true" />
+        <SafeImage src={imageUrl(film, 'banner')} alt="" aria-hidden="true" />
       </div>
 
       <header className="film__head">
         <div className="film__poster">
           <SafeImage
-            src={posterUrl(film.id)}
+            src={imageUrl(film, 'poster')}
             alt={`Poster de ${film.name}`}
             width="300"
             height="450"

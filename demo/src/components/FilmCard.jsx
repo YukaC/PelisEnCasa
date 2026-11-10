@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react'
 import SafeImage from './SafeImage.jsx'
-import { posterUrl } from '../data/catalog.js'
+import { imageUrl } from '../lib/image.js'
 import { formatScore } from '../lib/format.js'
 import {
   CARD_LIFT_VARIANTS,
@@ -25,7 +25,7 @@ export default function FilmCard({ film }) {
         <div className="film-card__poster">
           <motion.div className="film-card__poster-inner" variants={POSTER_VARIANTS}>
             <SafeImage
-              src={posterUrl(film.id)}
+              src={imageUrl(film, 'poster')}
               alt={`Poster de ${film.name}`}
               width="300"
               height="450"

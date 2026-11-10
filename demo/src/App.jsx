@@ -64,9 +64,14 @@ export default function App() {
         <div className="footer__inner">
           <img className="footer__logo" src="/logo.png" alt="" width="100" height="100" />
           <p>
-            Pelis en Casa · demo estática de un TP de 2022, reescrita con React y Vite. Sin backend ni base
-            de datos: el login es simulado.
+            Pelis en Casa · demo estática del TP de 2022, que era Flask con un JSON. Reescrita con React y
+            Vite, sin backend ni base de datos: el login es simulado.
           </p>
+          <nav className="footer__nav" aria-label="Enlaces del pie">
+            <a href="#/">Cartelera</a>
+            <a href={loginHref}>Ingresar</a>
+            <span className="footer__license">Código bajo licencia MIT</span>
+          </nav>
         </div>
       </footer>
     </div>
